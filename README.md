@@ -1,2 +1,2 @@
 # SimMix
-##A colaborative 3d modeler in VR!
+## A colaborative 3d modeler in VR!
