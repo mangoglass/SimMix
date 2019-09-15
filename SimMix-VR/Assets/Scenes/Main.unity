@@ -211,6 +211,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!21 &817943574
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &909696461
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,73 +427,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920411599}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &1076049894
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!1 &1181915140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1181915141}
-  m_Layer: 0
-  m_Name: Statics
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &1181915141
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181915140}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 920411600}
-  - {fileID: 909696462}
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1246601228
+--- !u!43 &1046859063
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -622,6 +590,38 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1181915140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1181915141}
+  m_Layer: 0
+  m_Name: Statics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1181915141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181915140}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 920411600}
+  - {fileID: 909696462}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5314614967567152126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -693,12 +693,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1076049894}
+      objectReference: {fileID: 817943574}
     - target: {fileID: 5314614968034609540, guid: bc9e8074a56849a4390970367bfd20a4,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1246601228}
+      objectReference: {fileID: 1046859063}
     - target: {fileID: 5314614968026501348, guid: bc9e8074a56849a4390970367bfd20a4,
         type: 3}
       propertyPath: color.r
@@ -867,6 +867,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7589992303522031561, guid: fcaf4fd969758184796feb7767e6c5de,
         type: 3}
+    - target: {fileID: 1817095312, guid: bc9e8074a56849a4390970367bfd20a4, type: 3}
+      propertyPath: minToolPrimitiveVisibility
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1817095311, guid: bc9e8074a56849a4390970367bfd20a4, type: 3}
       propertyPath: controller
       value: 1
@@ -908,5 +912,95 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 351287243283207354, guid: 6347828d5e552c240acac2bd74be11c7,
         type: 3}
+    - target: {fileID: 1817095311, guid: bc9e8074a56849a4390970367bfd20a4, type: 3}
+      propertyPath: minToolPrimitiveVisibility
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc9e8074a56849a4390970367bfd20a4, type: 3}
+--- !u!1 &5314614967567152127 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5314614968033522134, guid: bc9e8074a56849a4390970367bfd20a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 5314614967567152126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5314614967567152128 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5314614968033688560, guid: bc9e8074a56849a4390970367bfd20a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 5314614967567152126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5314614967567152129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5314614967567152127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447170ee715b60348a81cc2816dba5a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: 1
+  toolClick:
+    actionPath: /actions/default/in/ToolActionClick
+    needsReinit: 0
+  teleportClick:
+    actionPath: /actions/default/in/Teleport
+    needsReinit: 0
+  headsetIsOn:
+    actionPath: /actions/default/in/HeadsetOnHead
+    needsReinit: 0
+  swapClick:
+    actionPath: /actions/default/in/SwapAction
+    needsReinit: 0
+  menuDisplay:
+    actionPath: /actions/default/in/MenuDisplay
+    needsReinit: 0
+  menuClick:
+    actionPath: /actions/default/in/MenuClick
+    needsReinit: 0
+  toolVariable:
+    actionPath: /actions/default/in/ToolActionVariable
+    needsReinit: 0
+  menuLocation:
+    actionPath: /actions/default/in/MenuLocation
+    needsReinit: 0
+--- !u!114 &5314614967567152130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5314614967567152128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447170ee715b60348a81cc2816dba5a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: 0
+  toolClick:
+    actionPath: /actions/default/in/ToolActionClick
+    needsReinit: 0
+  teleportClick:
+    actionPath: /actions/default/in/Teleport
+    needsReinit: 0
+  headsetIsOn:
+    actionPath: /actions/default/in/HeadsetOnHead
+    needsReinit: 0
+  swapClick:
+    actionPath: /actions/default/in/SwapAction
+    needsReinit: 0
+  menuDisplay:
+    actionPath: /actions/default/in/MenuDisplay
+    needsReinit: 0
+  menuClick:
+    actionPath: /actions/default/in/MenuClick
+    needsReinit: 0
+  toolVariable:
+    actionPath: /actions/default/in/ToolActionVariable
+    needsReinit: 0
+  menuLocation:
+    actionPath: /actions/default/in/MenuLocation
+    needsReinit: 0
