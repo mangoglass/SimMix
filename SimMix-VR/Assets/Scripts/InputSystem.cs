@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class InputSystem : MonoBehaviour
 {
@@ -15,26 +16,31 @@ public class InputSystem : MonoBehaviour
     private IFunction[] functions;
     private FunctionEnum state;
 
-    void Awake() 
+    void Start() 
     {
         inputParser = GetComponent<IInputParser>();
         state = FunctionEnum.none;
+        int nrOfTools = Enum.GetNames(typeof(ToolFunction.ToolEnum)).Length;
+        ToolFunction toolFunction = new ToolFunction(minToolPrimitiveVisibility);
 
         functions = new IFunction[]
         {
-            new ToolFunction(minToolPrimitiveVisibility)
+            toolFunction,
+            new TeleportFunction(),
+            new SwapFunction(),
+            new MenuFunction(nrOfTools, inputParser.GetTransform(), toolFunction)
         };
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (forceReadInput || inputParser.HeadsetBoolCheck()) 
+        if (forceReadInput || inputParser.HeadsetBool()) 
         {
             StateHandler();
         }
 
-        else if (inputParser.HeadsetBoolReleased()) 
+        else if (inputParser.HeadsetBoolUp()) 
         {
             Debug.Log("Player has taken off headset, pausing input");
         }
@@ -53,19 +59,19 @@ public class InputSystem : MonoBehaviour
                     Debug.Log(controller.ToString() + " entering tool action state");
                 }
 
-                else if (inputParser.MenuDisplayBoolCheck()) 
+                else if (inputParser.MenuDisplayBool()) 
                 {
                     state = FunctionEnum.menu;
                     Debug.Log(controller.ToString() + " entering menu action state");
                 }
 
-                else if (inputParser.TeleportBoolCheck()) 
+                else if (inputParser.TeleportBool()) 
                 {
                     state = FunctionEnum.teleport;
                     Debug.Log(controller.ToString() + " entering teleport action state");
                 }
 
-                else if (inputParser.SwapBoolCheck()) 
+                else if (inputParser.SwapBool()) 
                 {
                     state = FunctionEnum.swap;
                     Debug.Log(controller.ToString() + " entering swaping action state");

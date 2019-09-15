@@ -27,12 +27,12 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return m_Pose.transform;
     }
 
-    public bool HeadsetBoolCheck() 
+    public bool HeadsetBool() 
     {
         return headsetIsOn.GetState(SteamVR_Input_Sources.Head);
     }
 
-    public bool HeadsetBoolReleased() 
+    public bool HeadsetBoolUp() 
     {
         return headsetIsOn.GetStateUp(SteamVR_Input_Sources.Head);
     }
@@ -47,34 +47,46 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return controller == Controller.right;
     }
 
-    public bool MenuClickBoolCheck() 
+    public bool MenuClickBool() 
     {
         return menuClick.GetState(m_Pose.inputSource);
     }
 
-    public bool MenuDisplayBoolCheck() 
+    public bool MenuDisplayBool() 
     {
         return menuDisplay.GetState(m_Pose.inputSource);
     }
 
-    public bool SwapBoolCheck() 
+    public bool MenuDisplayBoolDown() {
+        return menuDisplay.GetStateDown(m_Pose.inputSource);
+    }
+
+    public bool MenuDisplayBoolUp() {
+        return menuDisplay.GetStateUp(m_Pose.inputSource);
+    }
+
+    public bool SwapBool() 
     {
         return swapClick.GetState(m_Pose.inputSource);
     }
 
-    public bool TeleportBoolCheck() 
+    public bool TeleportBool() 
     {
         return teleportClick.GetState(m_Pose.inputSource);
     }
 
-    public bool ToolBoolCheck() 
+    public bool ToolBool() 
     {
         return toolClick.GetState(m_Pose.inputSource);
     }
 
-    public bool ToolBoolReleased() 
+    public bool ToolBoolUp() 
     {
         return toolClick.GetStateUp(m_Pose.inputSource);
+    }
+
+    public bool ToolBoolDown() {
+        return toolClick.GetStateDown(m_Pose.inputSource);
     }
 
     public bool ToolTriggerValueChanged() 

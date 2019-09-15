@@ -2,15 +2,23 @@
 
 public interface IInputParser
 {
-    bool ToolBoolCheck();
-    bool ToolBoolReleased();
+    bool ToolBool();
+    bool ToolBoolDown();
+    bool ToolBoolUp();
     bool ToolTriggerValueChanged();
-    bool TeleportBoolCheck();
-    bool HeadsetBoolCheck();
-    bool HeadsetBoolReleased();
-    bool SwapBoolCheck();
-    bool MenuDisplayBoolCheck();
-    bool MenuClickBoolCheck();
+
+    bool TeleportBool();
+
+    bool HeadsetBool();
+    bool HeadsetBoolUp();
+
+    bool SwapBool();
+
+    bool MenuDisplayBool();
+    bool MenuDisplayBoolDown();
+    bool MenuDisplayBoolUp();
+    bool MenuClickBool();
+
     bool isLeftController();
     bool isRightController();
 

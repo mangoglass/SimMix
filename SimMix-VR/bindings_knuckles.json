@@ -67,7 +67,7 @@
                      "output" : "/actions/default/in/menuclick"
                   }
                },
-               "mode" : "toggle_button",
+               "mode" : "button",
                "path" : "/user/hand/left/input/trackpad"
             },
             {
@@ -76,7 +76,7 @@
                      "output" : "/actions/default/in/menuclick"
                   }
                },
-               "mode" : "toggle_button",
+               "mode" : "button",
                "path" : "/user/hand/right/input/trackpad"
             },
             {

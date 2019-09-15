@@ -39,8 +39,7 @@ public class PrimitiveTool : ITool
             c.a = m_minToolVisibility + (triggerValue * (1 - m_minToolVisibility));
             cube.GetComponent<MeshRenderer>().material.color = c;
 
-
-            if (input.ToolBoolReleased()) {
+            if (input.ToolBoolUp()) {
                 GameObject cubeClone = Object.Instantiate(cube);
                 Material cloneMat = new Material(cube.GetComponent<MeshRenderer>().material.shader);
                 cloneMat.SetColor("Red", new Color(1, 0, 0));
