@@ -13,10 +13,28 @@ public class MeshManager : MonoBehaviour {
     }
 
     void Start() {
-        CreateCube(new Vector3(0.0f, 0.5f, 0.0f), 1);
-        CreateCube(new Vector3(2.0f, 0.5f, 0.0f), 1);
-        CreateCube(new Vector3(0.0f, 0.5f, 2.0f), 1);
-        CreateCube(new Vector3(2.0f, 0.5f, 2.0f), 1);
+        /*        CreateCube(new Vector3(0.0f, 0.5f, 0.0f), 1);
+                CreateCube(new Vector3(2.0f, 0.5f, 0.0f), 1);
+                CreateCube(new Vector3(0.0f, 0.5f, 2.0f), 1);
+                CreateCube(new Vector3(2.0f, 0.5f, 2.0f), 1);*/
+
+        int num = 10;
+        float step = (Mathf.PI * 2) / num;
+        float xoffset = 0.5f;
+        float yoffset = 0.5f;
+
+        for (int x = 0; x < num; x++)
+        {
+            for (int y = 0; y < num; y++)
+            {
+
+                float siny = (((Mathf.Cos(y * step) + 1.0f) / 4.0f)) + 0.2f;
+                float cosx = (((Mathf.Sin(x * step) + 1.0f) / 4.0f)) + 0.2f;
+
+                CreateCube(new Vector3(x / 5.0f + xoffset, siny + cosx, y / 5.0f + yoffset), 0.15f);
+
+            }
+        }
     }
 
     // Update is called once per frame

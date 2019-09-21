@@ -21,7 +21,7 @@ public class MenuFunction : IFunction
 
     public MenuFunction(int o_nrOfMenuElements, Transform controllerTransform, ToolFunction o_toolRef) 
     {
-        nrOfMenuElements = o_nrOfMenuElements * 3; // REMOVE "*3" LATER!!!
+        nrOfMenuElements = o_nrOfMenuElements;
         toolRef = o_toolRef;
         hooverElement = -1;
         selectedElement = (int)toolRef.equippedTool;
@@ -107,7 +107,7 @@ public class MenuFunction : IFunction
                     menuElements[selectedElement].GetComponent<MeshRenderer>().material = unselectedMat;
 
                     selectedElement = hooverElement;
-                    toolRef.equippedTool = (ToolFunction.ToolEnum)(selectedElement / 3); // REMOVE "/3" LATER!!!
+                    toolRef.equippedTool = (ToolFunction.ToolEnum)(selectedElement);
                 }
             }
 
@@ -135,7 +135,7 @@ public class MenuFunction : IFunction
         float elementSubDivision = 2f * Mathf.PI / menuElements.Length;
 
         angle = angle - (Mathf.PI / 2f) + (elementSubDivision / 2f);
-        while (angle < 0) { angle += 2f * Mathf.PI; }
+        if (angle < 0) { angle += 2f * Mathf.PI; }
 
         return (int)(angle / elementSubDivision);
     }

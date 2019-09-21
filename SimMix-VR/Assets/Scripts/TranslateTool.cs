@@ -16,7 +16,7 @@ public class TranslateTool : ITool
         Globals glob = Object.FindObjectOfType<Globals>();
 
         mesh_manager = glob.meshManager;
-        min_select_dist = 1.5;
+        min_select_dist = 0.3f;
         mark_color = new Color(0.9622642f, 0.4039694f, 0.8832362f);
         prev_marked_mesh_id = -1;
     }
