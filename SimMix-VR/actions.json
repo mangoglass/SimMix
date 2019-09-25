@@ -2,7 +2,8 @@
   "actions": [
     {
       "name": "/actions/default/in/Teleport",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/default/in/Pose",
@@ -19,32 +20,32 @@
       "skeleton": "/skeleton/hand/right"
     },
     {
-      "name": "/actions/default/in/HeadsetOnHead",
-      "type": "boolean",
-      "requirement": "optional"
-    },
-    {
       "name": "/actions/default/in/ToolActionClick",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/default/in/ToolActionVariable",
-      "type": "vector1"
+      "type": "vector1",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/default/in/SwapAction",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/MenuPosition",
+      "type": "vector2",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/MenuActionClick",
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/default/in/MenuDisplay",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/MenuLocation",
-      "type": "vector2"
-    },
-    {
-      "name": "/actions/default/in/MenuClick",
       "type": "boolean"
     },
     {
@@ -60,57 +61,32 @@
   ],
   "default_bindings": [
     {
-      "controller_type": "vive_controller",
-      "binding_url": "bindings_vive_controller.json"
+      "controller_type": "knuckles",
+      "binding_url": "application_generated_unity_simmixvr_exe_binding_knuckles.json"
     },
     {
       "controller_type": "oculus_touch",
-      "binding_url": "bindings_oculus_touch.json"
+      "binding_url": "application_generated_unity_simmixvr_exe_binding_oculus_touch.json"
     },
     {
-      "controller_type": "knuckles",
-      "binding_url": "bindings_knuckles.json"
-    },
-    {
-      "controller_type": "holographic_controller",
-      "binding_url": "bindings_holographic_controller.json"
-    },
-    {
-      "controller_type": "vive",
-      "binding_url": "binding_vive.json"
-    },
-    {
-      "controller_type": "vive_pro",
-      "binding_url": "binding_vive_pro.json"
-    },
-    {
-      "controller_type": "rift",
-      "binding_url": "binding_rift.json"
-    },
-    {
-      "controller_type": "holographic_hmd",
-      "binding_url": "binding_holographic_hmd.json"
-    },
-    {
-      "controller_type": "vive_tracker_camera",
-      "binding_url": "binding_vive_tracker_camera.json"
+      "controller_type": "vive_controller",
+      "binding_url": "application_generated_unity_simmixvr_exe_binding_vive_controller.json"
     }
   ],
   "localization": [
     {
       "language_tag": "en_US",
-      "/actions/default/in/HeadsetOnHead": "Headset on head (proximity sensor)",
       "/actions/default/in/Pose": "Pose",
       "/actions/default/in/SkeletonLeftHand": "Skeleton (Left)",
       "/actions/default/in/SkeletonRightHand": "Skeleton (Right)",
+      "/actions/default/in/SwapAction": "Swap Action",
       "/actions/default/in/Teleport": "Teleport",
-      "/actions/default/out/Haptic": "Haptic",
       "/actions/default/in/ToolActionClick": "Tool Action Click",
       "/actions/default/in/ToolActionVariable": "Tool Action Variable",
-      "/actions/default/in/SwapAction": "Swap Action",
-      "/actions/default/in/MenuDisplay": "MenuDisplay",
-      "/actions/default/in/MenuLocation": "Menu Location",
-      "/actions/default/in/MenuClick": "Menu Click"
+      "/actions/default/out/Haptic": "Haptic",
+      "/actions/default/in/MenuPosition": "Menu Position",
+      "/actions/default/in/MenuActionClick": "Menu Action Click",
+      "/actions/default/in/MenuDisplay": "Menu Display"
     }
   ]
 }

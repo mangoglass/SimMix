@@ -26,7 +26,7 @@ public class InputSystem : MonoBehaviour
         functions = new IFunction[]
         {
             toolFunction,
-            new TeleportFunction(),
+            new TeleportFunction(inputParser.GetTransform()),
             new SwapFunction(),
             new MenuFunction(nrOfTools, inputParser.GetTransform(), toolFunction)
         };
@@ -35,14 +35,9 @@ public class InputSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (forceReadInput || inputParser.HeadsetBool()) 
+        if (forceReadInput)
         {
             StateHandler();
-        }
-
-        else if (inputParser.HeadsetBoolUp()) 
-        {
-            Debug.Log("Player has taken off headset, pausing input");
         }
     }
 
@@ -53,33 +48,16 @@ public class InputSystem : MonoBehaviour
         switch (state) 
         {
             case FunctionEnum.none:
-                if (inputParser.ToolTriggerValue() > 0) 
-                {
-                    state = FunctionEnum.tool;
-                    Debug.Log(controller.ToString() + " entering tool action state");
-                }
 
-                else if (inputParser.MenuDisplayBool()) 
-                {
-                    state = FunctionEnum.menu;
-                    Debug.Log(controller.ToString() + " entering menu action state");
-                }
-
-                else if (inputParser.TeleportBool()) 
-                {
-                    state = FunctionEnum.teleport;
-                    Debug.Log(controller.ToString() + " entering teleport action state");
-                }
-
-                else if (inputParser.SwapBool()) 
-                {
-                    state = FunctionEnum.swap;
-                    Debug.Log(controller.ToString() + " entering swaping action state");
-                }
-
+                if (inputParser.ToolTriggerValue() > 0) { state = FunctionEnum.tool; }
+                else if (inputParser.MenuDisplayBool()) { state = FunctionEnum.menu; }
+                else if (inputParser.TeleportBool()) { state = FunctionEnum.teleport; }
+                else if (inputParser.SwapBool()) { state = FunctionEnum.swap; }
+                else { state = FunctionEnum.tool; } // If no state has been selected, default to the tool state
                 break;
 
             case FunctionEnum.tool:
+
                 maintainState = functions[(int)FunctionEnum.tool].Call(inputParser);
                 if (!maintainState) { state = FunctionEnum.none; }
                 break;
@@ -90,11 +68,13 @@ public class InputSystem : MonoBehaviour
                 break;
 
             case FunctionEnum.teleport:
+
                 maintainState = functions[(int)FunctionEnum.teleport].Call(inputParser);
                 if (!maintainState) { state = FunctionEnum.none; }
                 break;
 
             case FunctionEnum.swap:
+
                 maintainState = functions[(int)FunctionEnum.swap].Call(inputParser);
                 if (!maintainState) { state = FunctionEnum.none; }
                 break;

@@ -49,14 +49,6 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean HeadsetOnHead
-        {
-            get
-            {
-                return SteamVR_Actions.default_HeadsetOnHead;
-            }
-        }
-        
         public virtual SteamVR_Action_Boolean ToolActionClick
         {
             get
@@ -81,27 +73,27 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Vector2 MenuPosition
+        {
+            get
+            {
+                return SteamVR_Actions.default_MenuPosition;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean MenuActionClick
+        {
+            get
+            {
+                return SteamVR_Actions.default_MenuActionClick;
+            }
+        }
+        
         public virtual SteamVR_Action_Boolean MenuDisplay
         {
             get
             {
                 return SteamVR_Actions.default_MenuDisplay;
-            }
-        }
-        
-        public virtual SteamVR_Action_Vector2 MenuLocation
-        {
-            get
-            {
-                return SteamVR_Actions.default_MenuLocation;
-            }
-        }
-        
-        public virtual SteamVR_Action_Boolean MenuClick
-        {
-            get
-            {
-                return SteamVR_Actions.default_MenuClick;
             }
         }
         

@@ -30,14 +30,7 @@ public class ToolFunction : IFunction {
                 break;
         }
 
-        bool maintainState = true;
-
-        if (input.ToolTriggerValue() == 0 && (input.SwapBool() || input.MenuDisplayBool() || input.TeleportBool())) 
-        {
-            maintainState = false;
-        }
-
-        return maintainState; 
+        return input.ToolTriggerValue() > 0 || (!input.SwapBool() && !input.MenuDisplayBool() && !input.TeleportBool()); 
     }
 
     public ITool Swap(ITool tool, ToolEnum type) 

@@ -19,4 +19,14 @@ public class Globals : MonoBehaviour
     public Material unselectedMaterial;
     public Material hooverMaterial;
     public Material selectedMaterial;
+
+    [Header("Teleport Variables")]
+    public TeleportHandler teleportRef;
+    public Vector3 lineOffset;
+    [Range(10f, 10000f)]
+    public float lineMaxLength;
+    [Range(0f, 0.1f)]
+    public float cursorHooverDistance;
+    public float teleportFadeTime;
+    public int rayLayer;
 }

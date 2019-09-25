@@ -78,8 +78,7 @@ public class MenuFunction : IFunction
         if(menuDisplay) 
         {
             if (!wrapper.activeSelf) { wrapper.SetActive(true); }
-
-            Vector2 pos = input.MenuTrackLocation();
+            Vector2 pos = input.MenuPointerLocation();
             Vector3 pointerPos = new Vector3(radius * pos.x, 0, radius * pos.y);
             pointer.transform.localPosition = pointerPos;
             float angle = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;

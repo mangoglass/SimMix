@@ -8,9 +8,8 @@ public interface IInputParser
     bool ToolTriggerValueChanged();
 
     bool TeleportBool();
-
-    bool HeadsetBool();
-    bool HeadsetBoolUp();
+    bool TeleportBoolDown();
+    bool TeleportBoolUp();
 
     bool SwapBool();
 
@@ -23,6 +22,6 @@ public interface IInputParser
     bool isRightController();
 
     float ToolTriggerValue();
-    Vector2 MenuTrackLocation();
+    Vector2 MenuPointerLocation();
     Transform GetTransform();
 }

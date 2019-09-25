@@ -1,0 +1,99 @@
+{
+  "actions": [
+    {
+      "name": "/actions/default/in/Teleport",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/Pose",
+      "type": "pose"
+    },
+    {
+      "name": "/actions/default/in/SkeletonLeftHand",
+      "type": "skeleton",
+      "skeleton": "/skeleton/hand/left"
+    },
+    {
+      "name": "/actions/default/in/SkeletonRightHand",
+      "type": "skeleton",
+      "skeleton": "/skeleton/hand/right"
+    },
+    {
+      "name": "/actions/default/in/HeadsetOnHead",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/default/in/ToolActionClick",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/ToolActionVariable",
+      "type": "vector1",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/SwapAction",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/MenuDisplay",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/MenuPosition",
+      "type": "vector2",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/in/MenuActionClick",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/default/out/Haptic",
+      "type": "vibration"
+    }
+  ],
+  "action_sets": [
+    {
+      "name": "/actions/default",
+      "usage": "single"
+    }
+  ],
+  "default_bindings": [
+    {
+      "controller_type": "knuckles",
+      "binding_url": "application_generated_unity_simmixvr_exe_binding_knuckles.json"
+    },
+    {
+      "controller_type": "oculus_touch",
+      "binding_url": "application_generated_unity_simmixvr_exe_binding_oculus_touch.json"
+    },
+    {
+      "controller_type": "vive_controller",
+      "binding_url": "application_generated_unity_simmixvr_exe_binding_vive_controller.json"
+    }
+  ],
+  "localization": [
+    {
+      "language_tag": "en_US",
+      "/actions/default/in/HeadsetOnHead": "Headset on head (proximity sensor)",
+      "/actions/default/in/MenuDisplay": "Menu Display",
+      "/actions/default/in/Pose": "Pose",
+      "/actions/default/in/SkeletonLeftHand": "Skeleton (Left)",
+      "/actions/default/in/SkeletonRightHand": "Skeleton (Right)",
+      "/actions/default/in/SwapAction": "Swap Action",
+      "/actions/default/in/Teleport": "Teleport",
+      "/actions/default/in/ToolActionClick": "Tool Action Click",
+      "/actions/default/in/ToolActionVariable": "Tool Action Variable",
+      "/actions/default/out/Haptic": "Haptic",
+      "/actions/default/in/MenuPosition": "Menu Position",
+      "/actions/default/in/MenuActionClick": "Menu Action Click"
+    }
+  ]
+}

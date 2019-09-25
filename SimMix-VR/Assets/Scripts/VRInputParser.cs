@@ -8,7 +8,6 @@ public class VRInputParser : MonoBehaviour, IInputParser {
     public Controller controller;
     public SteamVR_Action_Boolean toolClick;
     public SteamVR_Action_Boolean teleportClick;
-    public SteamVR_Action_Boolean headsetIsOn;
     public SteamVR_Action_Boolean swapClick;
     public SteamVR_Action_Boolean menuDisplay;
     public SteamVR_Action_Boolean menuClick;
@@ -25,16 +24,6 @@ public class VRInputParser : MonoBehaviour, IInputParser {
     public Transform GetTransform() 
     {
         return m_Pose.transform;
-    }
-
-    public bool HeadsetBool() 
-    {
-        return headsetIsOn.GetState(SteamVR_Input_Sources.Head);
-    }
-
-    public bool HeadsetBoolUp() 
-    {
-        return headsetIsOn.GetStateUp(SteamVR_Input_Sources.Head);
     }
 
     public bool isLeftController() 
@@ -75,6 +64,14 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return teleportClick.GetState(m_Pose.inputSource);
     }
 
+    public bool TeleportBoolDown() {
+        return teleportClick.GetStateDown(m_Pose.inputSource);
+    }
+
+    public bool TeleportBoolUp() {
+        return teleportClick.GetStateUp(m_Pose.inputSource);
+    }
+
     public bool ToolBool() 
     {
         return toolClick.GetState(m_Pose.inputSource);
@@ -99,7 +96,7 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return toolVariable.GetAxis(m_Pose.inputSource);
     }
 
-    public Vector2 MenuTrackLocation() 
+    public Vector2 MenuPointerLocation() 
     {
         return menuLocation.GetAxis(m_Pose.inputSource);
     }
