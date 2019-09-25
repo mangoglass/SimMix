@@ -7,10 +7,11 @@ public class PrimitiveTool : ITool
     private float m_minToolVisibility;
     private MeshManager meshManager;
 
-    public PrimitiveTool(float minToolVisibility) 
+    public PrimitiveTool() 
     {
-        m_minToolVisibility = minToolVisibility;
         Globals globals = Object.FindObjectOfType<Globals>();
+
+        m_minToolVisibility = globals.minToolVisibility;
         meshManager = globals.meshManager;
 
         primitives = new GameObject[]

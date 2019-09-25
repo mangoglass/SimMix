@@ -29,4 +29,12 @@ public class Globals : MonoBehaviour
     public float cursorHooverDistance;
     public float teleportFadeTime;
     public int rayLayer;
+
+    [Header("Tool Variables")]
+    [Range(0f, 1f)]
+    public float minToolVisibility;
+    public float scalingFactor;
+    public float clickScalingFactor;
+    [Range(0f, 1f)]
+    public float scalingTriggerThreshold;
 }

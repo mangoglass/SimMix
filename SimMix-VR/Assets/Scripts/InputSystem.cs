@@ -21,7 +21,7 @@ public class InputSystem : MonoBehaviour
         inputParser = GetComponent<IInputParser>();
         state = FunctionEnum.none;
         int nrOfTools = Enum.GetNames(typeof(ToolFunction.ToolEnum)).Length;
-        ToolFunction toolFunction = new ToolFunction(minToolPrimitiveVisibility);
+        ToolFunction toolFunction = new ToolFunction(inputParser.GetTransform().position);
 
         functions = new IFunction[]
         {

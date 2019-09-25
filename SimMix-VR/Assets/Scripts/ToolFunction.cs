@@ -1,34 +1,28 @@
 ﻿
+using UnityEngine;
+
 public class ToolFunction : IFunction {
 
-    public enum ToolEnum { createPrimitive=0, translate=1 };
+    public enum ToolEnum { createPrimitive=0, translate=1, scale=2 };
     public ToolEnum equippedTool;
 
     private ITool[] tools;
 
-    public ToolFunction(float minToolVisibillity)
+    public ToolFunction(Vector3 toolStartPos)
     {
         equippedTool = ToolEnum.translate;
 
         tools = new ITool[]
         {
-            new PrimitiveTool(minToolVisibillity),
-            new TranslateTool()
+            new PrimitiveTool(),
+            new TranslateTool(),
+            new PlayerScaleTool(toolStartPos)
         };
     }
 
     public bool Call(IInputParser input) 
     {
-        switch (equippedTool) 
-        {
-            case ToolEnum.createPrimitive:
-                tools[(int)ToolEnum.createPrimitive].Apply(input);
-                break;
-
-            case ToolEnum.translate:
-                tools[(int)ToolEnum.translate].Apply(input);
-                break;
-        }
+        tools[(int)equippedTool].Apply(input);
 
         return input.ToolTriggerValue() > 0 || (!input.SwapBool() && !input.MenuDisplayBool() && !input.TeleportBool()); 
     }
