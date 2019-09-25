@@ -23,5 +23,7 @@ public interface IInputParser
 
     float ToolTriggerValue();
     Vector2 MenuPointerLocation();
+    float ToolLastTriggerValue();
+
     Transform GetTransform();
 }

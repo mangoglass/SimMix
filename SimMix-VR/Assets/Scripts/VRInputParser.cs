@@ -96,6 +96,10 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return toolVariable.GetAxis(m_Pose.inputSource);
     }
 
+    public float ToolLastTriggerValue() {
+        return toolVariable.GetLastAxis(m_Pose.inputSource);
+    }
+
     public Vector2 MenuPointerLocation() 
     {
         return menuLocation.GetAxis(m_Pose.inputSource);
