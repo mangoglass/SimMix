@@ -57,7 +57,7 @@ public class MeshManager : MonoBehaviour
     void Awake()
     {
         players = new List<Player>();
-        min_select_dist = 1.5;
+        min_select_dist = 0.3;
         trimeshes = new Dictionary<int, MyTriMesh>();
 
         last_mesh_id = 0;
@@ -66,7 +66,7 @@ public class MeshManager : MonoBehaviour
 
     void Start()
     {
-        CreateCube(new Vector3(0, 0, 0), 1.0f);
+        CreateCube(new Vector3(0, 0, 0), 0.3f);
         //mesh_manager.CreateCube(new Vector3(2, 0, 2), 1.0f);
         //         int num = 10;
         // float step = (Mathf.PI * 2) / num;
