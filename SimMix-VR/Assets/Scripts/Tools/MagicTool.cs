@@ -20,7 +20,7 @@ public class MagicTool : ITool
         Vector3 pos = input.GetTransform().position;
         Vector3 rotation = input.GetTransform().eulerAngles;
 
-        if (!input.ToolBoolDown())
+        if (input.ToolLastTriggerValue() != 0) 
         {
             mesh_manager.Translate(player_id, pos - last_pos);
             mesh_manager.Rotate(player_id, rotation - last_rotation);

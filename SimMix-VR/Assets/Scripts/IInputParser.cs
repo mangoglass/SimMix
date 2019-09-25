@@ -23,6 +23,7 @@ public interface IInputParser
     bool isRightController();
 
     float ToolTriggerValue();
+    float ToolLastTriggerValue();
     Vector2 MenuTrackLocation();
     Transform GetTransform();
 }

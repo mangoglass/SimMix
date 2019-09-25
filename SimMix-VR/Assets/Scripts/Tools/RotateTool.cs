@@ -18,7 +18,7 @@ public class RotateTool : ITool
     {
         Vector3 rotation = input.GetTransform().eulerAngles;
 
-        if (!input.ToolBoolDown())
+        if (input.ToolLastTriggerValue() != 0) 
         {
             mesh_manager.Rotate(player_id, rotation - last_rotation);
         }

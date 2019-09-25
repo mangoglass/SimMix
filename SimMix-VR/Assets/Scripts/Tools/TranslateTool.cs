@@ -18,12 +18,11 @@ public class TranslateTool : ITool
     {
         Vector3 pos = input.GetTransform().position;
 
-        if (!input.ToolBoolDown())
+        if (input.ToolLastTriggerValue() != 0)
         {
             mesh_manager.Translate(player_id, pos - last_pos);
         }
 
         last_pos = pos;
     }
-
 }

@@ -14,11 +14,10 @@ public class SwitchModeTool : ITool
 
     public void Apply( IInputParser input) 
     {
-        if (input.ToolBoolDown())
+        if (input.ToolLastTriggerValue() == 0) 
         {
             mesh_manager.ToggleMode(player_id);
         }
-
     }
 
 }

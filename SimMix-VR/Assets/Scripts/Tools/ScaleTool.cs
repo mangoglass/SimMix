@@ -20,9 +20,9 @@ public class ScaleTool : ITool
         Vector3 pos = input.GetTransform().position;
         float dist;
 
-        if (input.ToolBoolDown())
+        if (input.ToolLastTriggerValue() == 0) 
         {
-			center = mesh_manager.GetCenter(player_id);
+            center = mesh_manager.GetCenter(player_id);
             dist = Vector3.Magnitude(pos - center);
 		}
 		else

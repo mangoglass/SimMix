@@ -18,7 +18,7 @@ public class ExtrudeTool : ITool
     {
         Vector3 pos = input.GetTransform().position;
 
-        if (input.ToolBoolDown())
+        if (input.ToolLastTriggerValue() == 0) 
         {
             mesh_manager.Extrude(player_id);
         }

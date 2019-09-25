@@ -46,15 +46,8 @@ public class ToolFunction : IFunction {
         //}
         tools[(int)equippedTool].Apply(input);
 
-        bool maintainState = true;
-
-        if (input.ToolTriggerValue() == 0 && (input.SwapBool() || input.MenuDisplayBool() || input.TeleportBool())) 
-        {
-            maintainState = false;
-
-        }
+        bool maintainState = input.ToolTriggerValue() > 0;
         mesh_manager.SetUpdateSelected(player_id, !maintainState);
-
 
         return maintainState; 
     }

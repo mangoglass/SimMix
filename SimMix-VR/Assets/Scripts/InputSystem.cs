@@ -64,24 +64,28 @@ public class InputSystem : MonoBehaviour
                 if (inputParser.ToolTriggerValue() > 0) 
                 {
                     state = FunctionEnum.tool;
+                    maintainState = functions[(int)FunctionEnum.tool].Call(inputParser);
                     Debug.Log(controller.ToString() + " entering tool action state");
                 }
 
                 else if (inputParser.MenuDisplayBool()) 
                 {
                     state = FunctionEnum.menu;
+                    maintainState = functions[(int)FunctionEnum.menu].Call(inputParser);
                     Debug.Log(controller.ToString() + " entering menu action state");
                 }
 
                 else if (inputParser.TeleportBool()) 
                 {
                     state = FunctionEnum.teleport;
+                    maintainState = functions[(int)FunctionEnum.teleport].Call(inputParser);
                     Debug.Log(controller.ToString() + " entering teleport action state");
                 }
 
                 else if (inputParser.SwapBool()) 
                 {
                     state = FunctionEnum.swap;
+                    maintainState = functions[(int)FunctionEnum.swap].Call(inputParser);
                     Debug.Log(controller.ToString() + " entering swaping action state");
                 }
 
