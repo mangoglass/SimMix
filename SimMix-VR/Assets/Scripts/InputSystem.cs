@@ -18,10 +18,15 @@ public class InputSystem : MonoBehaviour
 
     void Start() 
     {
+        Globals glob = FindObjectOfType<Globals>();
+
+        MeshManager mesh_manager = glob.meshManager;
+        int player_id = mesh_manager.RegisterPlayer(gameObject.transform);
+
         inputParser = GetComponent<IInputParser>();
         state = FunctionEnum.none;
         int nrOfTools = Enum.GetNames(typeof(ToolFunction.ToolEnum)).Length;
-        ToolFunction toolFunction = new ToolFunction(minToolPrimitiveVisibility);
+        ToolFunction toolFunction = new ToolFunction(minToolPrimitiveVisibility,player_id,mesh_manager);
 
         functions = new IFunction[]
         {
@@ -30,6 +35,9 @@ public class InputSystem : MonoBehaviour
             new SwapFunction(),
             new MenuFunction(nrOfTools, inputParser.GetTransform(), toolFunction)
         };
+
+
+
     }
 
     // Update is called once per frame
