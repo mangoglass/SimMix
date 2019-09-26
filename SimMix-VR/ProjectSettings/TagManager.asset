@@ -6,6 +6,7 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
+  - SpectatorCamera
   layers:
   - Default
   - TransparentFX
