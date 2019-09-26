@@ -11,11 +11,13 @@ public class TeleportHandler : MonoBehaviour
         isTeleporting = false;
     }
 
-    public void Teleport(Vector3 target, float fadeTime) {
+    public void Teleport(Vector3 target, float fadeTime) 
+    {
         if (isTeleporting) { return; }
 
         Transform cameraRig = SteamVR_Render.Top().origin;
         Vector3 headPos = SteamVR_Render.Top().head.position;
+        
 
         Vector3 groundPos = new Vector3(headPos.x, cameraRig.position.y, headPos.z);
         Vector3 teleportVector = target - groundPos;
