@@ -48,7 +48,6 @@ public class MeshManager : MonoBehaviour
                 break;
             case EditMode.Vertex:
                 GUILayout.Label("VERTEX MODE", gs);
-
                 break;
         }
     }
@@ -64,9 +63,33 @@ public class MeshManager : MonoBehaviour
 
     }
 
+    private void ResetScene()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        min_select_dist = 0.3;
+        last_mesh_id = 0;
+        trimeshes = new Dictionary<int, MyTriMesh>();
+        CreateCube(new Vector3(0, 0, 0), 0.3f);
+        CreateCube(new Vector3(0.5f, 0, 0.5f), 0.3f);
+
+
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetScene();
+        }
+    }
+
     void Start()
     {
-        CreateCube(new Vector3(0, 0, 0), 0.3f);
+        //CreateCube(new Vector3(0, 0, 0), 0.3f);
+        ResetScene();
         //mesh_manager.CreateCube(new Vector3(2, 0, 2), 1.0f);
         //         int num = 10;
         // float step = (Mathf.PI * 2) / num;
@@ -124,6 +147,11 @@ public class MeshManager : MonoBehaviour
     public void SetUpdateSelected(int player_id, bool update_selected)
     {
         players[player_id].update_selected = update_selected;
+    }
+
+    public EditMode GetMode(int player_id)
+    {
+        return players[player_id].edit_mode;
     }
 
     public void ToggleMode(int player_id)
