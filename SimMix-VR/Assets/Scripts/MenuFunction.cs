@@ -73,8 +73,8 @@ public class MenuFunction : IFunction
 
             TextMesh tm = text_go.AddComponent<TextMesh>();
             tm.anchor = TextAnchor.UpperCenter;
-            tm.color = Color.black;
-            tm.fontSize = 50;
+            tm.color = Color.white;
+            tm.fontSize = 60;
             tm.text = o_toolRef.toolnames[i];
         }
 
@@ -86,9 +86,9 @@ public class MenuFunction : IFunction
         GameObject mode_go = Object.Instantiate(mode_wrapper, wrapper.transform);
         mode_text = mode_go.AddComponent<TextMesh>();
         mode_text.anchor = TextAnchor.LowerCenter;
-        mode_text.color = Color.black;
+        mode_text.color = Color.white;
         mode_text.fontStyle = FontStyle.Bold;
-        mode_text.fontSize = 50;
+        mode_text.fontSize = 70;
         mode_text.text = ModeToString(meshManager.GetMode(toolRef.player_id)) + " mode";
 
 
@@ -150,7 +150,8 @@ public class MenuFunction : IFunction
                     menuElements[hooverElement].GetComponent<MeshRenderer>().material = hoverMat;
                 }
 
-                if (input.MenuClickBool() && hooverElement != selectedElement) 
+                //if (input.MenuClickBool() && hooverElement != selectedElement) 
+                if (hooverElement != selectedElement) 
                 {
                     menuElements[hooverElement].GetComponent<MeshRenderer>().material = selectedMat;
                     Debug.Log("selected: " + selectedElement);

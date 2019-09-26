@@ -35,6 +35,7 @@ public class MeshManager : MonoBehaviour
 
     void OnGUI()
     {
+        /*
         GUIStyle gs = new GUIStyle();
         gs.fontSize = 100;
         Player p = players[0];
@@ -50,6 +51,7 @@ public class MeshManager : MonoBehaviour
                 GUILayout.Label("VERTEX MODE", gs);
                 break;
         }
+        */
     }
 
     // Start is called before the first frame update
