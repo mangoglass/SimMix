@@ -18,6 +18,8 @@ public class MenuFunction : IFunction
     private GameObject[] menuElements;
 
     private ToolFunction toolRef;
+    private MeshManager meshManager;
+    private TextMesh mode_text;
 
     public MenuFunction(int o_nrOfMenuElements, Transform controllerTransform, ToolFunction o_toolRef) 
     {
@@ -39,11 +41,13 @@ public class MenuFunction : IFunction
         selectedMat = globals.selectedMaterial;
         hoverMat = globals.hooverMaterial;
         unselectedMat = globals.unselectedMaterial;
+        meshManager = globals.meshManager;
 
         menuElements = new GameObject[nrOfMenuElements];
 
         float angle = Mathf.PI / 2;
         float deltaAngle = 2 * Mathf.PI / nrOfMenuElements;
+
 
         for (int i = 0; i < nrOfMenuElements; i++) 
         {
@@ -57,7 +61,36 @@ public class MenuFunction : IFunction
 
             menuElements[i] = menuElement;
             angle += deltaAngle;
+
+
+            GameObject tool_text_wrapper = new GameObject();
+            tool_text_wrapper.transform.localEulerAngles = new Vector3(90f, 0, 0);
+            //test.transform.localPosition = new Vector3(1.2f * Mathf.Cos(currentAngel), 0, 1.2f * Mathf.Sin(currentAngel));
+            tool_text_wrapper.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            tool_text_wrapper.transform.localPosition = new Vector3(0, 0, -0.5f);
+
+            GameObject text_go = Object.Instantiate(tool_text_wrapper, menuElement.transform);
+
+            TextMesh tm = text_go.AddComponent<TextMesh>();
+            tm.anchor = TextAnchor.UpperCenter;
+            tm.color = Color.black;
+            tm.fontSize = 50;
+            tm.text = o_toolRef.toolnames[i];
         }
+
+        GameObject mode_wrapper = new GameObject();
+        mode_wrapper.transform.localEulerAngles = new Vector3(90f, 0, 0);
+        mode_wrapper.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        mode_wrapper.transform.localPosition = new Vector3(0, 0, radius + 1f);
+
+        GameObject mode_go = Object.Instantiate(mode_wrapper, wrapper.transform);
+        mode_text = mode_go.AddComponent<TextMesh>();
+        mode_text.anchor = TextAnchor.LowerCenter;
+        mode_text.color = Color.black;
+        mode_text.fontStyle = FontStyle.Bold;
+        mode_text.fontSize = 50;
+        mode_text.text = ModeToString(meshManager.GetMode(toolRef.player_id)) + " mode";
+
 
         Debug.Log("selected init: " + selectedElement);
         menuElements[selectedElement].GetComponent<MeshRenderer>().material = selectedMat;
@@ -69,6 +102,22 @@ public class MenuFunction : IFunction
         pointer.GetComponent<MeshRenderer>().material = globals.pointerMaterial;
 
         wrapper.SetActive(false);
+
+
+    }
+
+    private string ModeToString(EditMode edit_mode)
+    {
+        switch (edit_mode)
+        {
+            case EditMode.Object:
+                return "Object";
+            case EditMode.Face:
+                return "Face";
+            case EditMode.Vertex:
+                return "Vertex";
+        }
+        return " - ";
     }
 
     public bool Call(IInputParser input) 
@@ -77,6 +126,8 @@ public class MenuFunction : IFunction
 
         if(menuDisplay) 
         {
+            mode_text.text = ModeToString(meshManager.GetMode(toolRef.player_id)) + " mode";
+
             if (!wrapper.activeSelf) { wrapper.SetActive(true); }
             Vector2 pos = input.MenuPointerLocation();
             Vector3 pointerPos = new Vector3(radius * pos.x, 0, radius * pos.y);

@@ -5,6 +5,10 @@ public class ToolFunction : IFunction {
 
 
     public enum ToolEnum { createPrimitive=0, translate=1,rotate=2,scale=3,extrude=4,color=5,magic=6,inset=7,switchMode=8,userScale=9};
+    public string[] toolnames =
+    { "create","translate","rotate","scale","extrude","color","magic","inset","switch mode","user scale" };
+
+
     public ToolEnum equippedTool;
 
     private ITool[] tools;
