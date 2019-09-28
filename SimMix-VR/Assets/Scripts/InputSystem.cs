@@ -1,9 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
+public enum Controller 
+{
+    left,
+    right
+}
+
 public class InputSystem : MonoBehaviour
 {
-    public enum Controller { left, right };
     private enum FunctionEnum { tool=0, teleport=1, swap=2, menu=3, none };
 
     public bool forceReadInput = true;
@@ -33,7 +38,7 @@ public class InputSystem : MonoBehaviour
         {
             toolFunction,
             new TeleportFunction(inputParser.GetTransform()),
-            new SwapFunction(),
+            new ChangeModeFunction(player_id, inputParser.GetTransform(), controller),
             new MenuFunction(nrOfTools, inputParser.GetTransform(), toolFunction)
         };
 

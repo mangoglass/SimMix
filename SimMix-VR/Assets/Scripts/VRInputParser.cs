@@ -59,6 +59,14 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return swapClick.GetState(m_Pose.inputSource);
     }
 
+    public bool SwapBoolDown() {
+        return swapClick.GetStateDown(m_Pose.inputSource);
+    }
+
+    public bool SwapBoolUp() {
+        return swapClick.GetStateUp(m_Pose.inputSource);
+    }
+
     public bool TeleportBool() 
     {
         return teleportClick.GetState(m_Pose.inputSource);

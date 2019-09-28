@@ -12,6 +12,8 @@ public interface IInputParser
     bool TeleportBoolUp();
 
     bool SwapBool();
+    bool SwapBoolDown();
+    bool SwapBoolUp();
 
     bool MenuDisplayBool();
     bool MenuDisplayBoolDown();

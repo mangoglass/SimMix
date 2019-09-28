@@ -8,7 +8,6 @@ public class MenuFunction : IFunction
     private int hooverElement;
     private int selectedElement;
 
-    private Material pointerMat;
     private Material selectedMat;
     private Material hoverMat;
     private Material unselectedMat;
@@ -19,7 +18,6 @@ public class MenuFunction : IFunction
 
     private ToolFunction toolRef;
     private MeshManager meshManager;
-    private TextMesh mode_text;
 
     public MenuFunction(int o_nrOfMenuElements, Transform controllerTransform, ToolFunction o_toolRef) 
     {
@@ -37,10 +35,9 @@ public class MenuFunction : IFunction
 
         radius = globals.menuRadius;
         menuThreshold = globals.menuThreshold;
-        pointerMat = globals.pointerMaterial;
-        selectedMat = globals.selectedMaterial;
-        hoverMat = globals.hooverMaterial;
-        unselectedMat = globals.unselectedMaterial;
+        selectedMat = globals.MenuSelectedMaterial;
+        hoverMat = globals.MenuHooverMaterial;
+        unselectedMat = globals.MenuUnselectedMaterial;
         meshManager = globals.meshManager;
 
         menuElements = new GameObject[nrOfMenuElements];
@@ -83,14 +80,6 @@ public class MenuFunction : IFunction
         mode_wrapper.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         mode_wrapper.transform.localPosition = new Vector3(0, 0, radius + 1f);
 
-        GameObject mode_go = Object.Instantiate(mode_wrapper, wrapper.transform);
-        mode_text = mode_go.AddComponent<TextMesh>();
-        mode_text.anchor = TextAnchor.LowerCenter;
-        mode_text.color = Color.white;
-        mode_text.fontStyle = FontStyle.Bold;
-        mode_text.fontSize = 70;
-        mode_text.text = ModeToString(meshManager.GetMode(toolRef.player_id)) + " mode";
-
 
         Debug.Log("selected init: " + selectedElement);
         menuElements[selectedElement].GetComponent<MeshRenderer>().material = selectedMat;
@@ -99,7 +88,7 @@ public class MenuFunction : IFunction
         pointer = Object.Instantiate(pointerPrimitive, wrapper.transform);
         Object.Destroy(pointerPrimitive);
 
-        pointer.GetComponent<MeshRenderer>().material = globals.pointerMaterial;
+        pointer.GetComponent<MeshRenderer>().material = globals.MenuPointerMaterial;
 
         wrapper.SetActive(false);
 
@@ -126,7 +115,6 @@ public class MenuFunction : IFunction
 
         if(menuDisplay) 
         {
-            mode_text.text = ModeToString(meshManager.GetMode(toolRef.player_id)) + " mode";
 
             if (!wrapper.activeSelf) { wrapper.SetActive(true); }
             Vector2 pos = input.MenuPointerLocation();

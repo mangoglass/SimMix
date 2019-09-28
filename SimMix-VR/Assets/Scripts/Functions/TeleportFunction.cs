@@ -28,7 +28,7 @@ public class TeleportFunction : IFunction
 
         Globals globals = Object.FindObjectOfType<Globals>();
 
-        teleportRef = globals.teleportRef;
+        teleportRef = globals.teleportReference;
         cursorHooverDist = globals.cursorHooverDistance;
         line.transform.localPosition = globals.lineOffset;
         lineMaxLength = globals.lineMaxLength;
