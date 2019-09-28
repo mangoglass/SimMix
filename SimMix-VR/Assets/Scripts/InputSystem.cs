@@ -20,6 +20,7 @@ public class InputSystem : MonoBehaviour
     private IInputParser inputParser;
     private IFunction[] functions;
     private FunctionEnum state;
+    private GameObject cursor;
 
     void Start() 
     {
@@ -27,6 +28,15 @@ public class InputSystem : MonoBehaviour
 
         MeshManager mesh_manager = glob.meshManager;
         int player_id = mesh_manager.RegisterPlayer(gameObject.transform);
+
+        GameObject cursorPrimitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        Destroy(cursorPrimitive.GetComponent<Collider>());
+        cursor = Instantiate(cursorPrimitive, gameObject.transform);
+        cursor.name = "Cursor";
+        cursor.GetComponent<MeshRenderer>().material = glob.cursorMaterial;
+        float cursorScale = glob.cursorScale;
+        cursor.transform.localScale = new Vector3(cursorScale, cursorScale, cursorScale);
+        Destroy(cursorPrimitive);
 
         inputParser = GetComponent<IInputParser>();
         state = FunctionEnum.none;

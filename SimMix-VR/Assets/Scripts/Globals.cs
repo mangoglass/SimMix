@@ -5,6 +5,10 @@ public class Globals : MonoBehaviour
     [Header("Mesh Manager global")]
     public MeshManager meshManager;
 
+    [Header("Cursor Variables")]
+    public float cursorScale;
+    public Material cursorMaterial;
+
     [Header("Menu Variables")]
     public float menuScale;
     public float menuRadius;
