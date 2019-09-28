@@ -1,16 +1,16 @@
 ﻿
 using UnityEngine;
-using Valve.VR;
 
-public class ChangeModeFunction : IFunction 
-{
+public class ChangeModeFunction : IFunction {
     private MeshManager meshManager;
     private EditMode mode;
     private Controller controller;
     private GameObject modeMenuWrapper;
     private GameObject modeMenuPointer;
     private GameObject selectedTextWrapper;
+    private GameObject controllerObject;
     private Material pointerMat;
+    private Color[] modeColors;
     private string[] modeNames;
     private int player_id;
     private int nrOfModes;
@@ -25,10 +25,11 @@ public class ChangeModeFunction : IFunction
 
     private ModeMenuElement[] elements;
 
-    public ChangeModeFunction(int player_id, Transform controllerTransform, Controller controller) 
+    public ChangeModeFunction(int player_id, Transform controllerTransform, Controller controller, GameObject controllerObject) 
     {
         this.player_id = player_id;
         this.controller = controller;
+        this.controllerObject = controllerObject;
 
         modeMenuWrapper = Object.Instantiate(new GameObject(), controllerTransform);
         modeMenuWrapper.transform.localPosition = new Vector3(0, 0, 0);
@@ -40,6 +41,7 @@ public class ChangeModeFunction : IFunction
         pointerMat = globals.swapPointerMaterial;
         minPointerY = globals.pointerMinY;
         maxPointerY = globals.pointerMaxY;
+        modeColors = globals.modeColor;
 
         mode = meshManager.GetMode(player_id);
 
@@ -55,7 +57,7 @@ public class ChangeModeFunction : IFunction
         }
 
         GameObject primitive = GameObject.CreatePrimitive(globals.swapMenuTypes);
-        Object.Destroy(primitive.GetComponent<SphereCollider>());
+        Object.Destroy(primitive.GetComponent<Collider>());
         float scale = globals.swapMenuElementScale;
         primitive.transform.localScale = new Vector3(scale, scale, scale);
 
@@ -88,12 +90,7 @@ public class ChangeModeFunction : IFunction
             elementTM.text = modeNames[i] + " mode";
 
             // outline for the selected mode
-            element.outline = element.shape.AddComponent<Outline>();
-            element.outline.OutlineMode = Outline.Mode.OutlineAll;
-            element.outline.enabled = (i == (int)mode);
-            element.outline.OutlineColor = globals.selectedColor;
-            element.outline.OutlineWidth = 5f;
-
+            element.outline = Utility.CreateOutline(element.shape, globals.selectedColor, (i == (int)mode));
             elements[i] = element;
         }
 
@@ -148,7 +145,7 @@ public class ChangeModeFunction : IFunction
             {
                 float pointerPos = (1f + input.MenuPointerLocation().y) / 2f;
                 yPos = minPointerY + ((maxPointerY - minPointerY) * pointerPos);
-                modeIndex = (int)(pointerPos * nrOfModes);
+                modeIndex = (int)((pointerPos == 1 ? 0.99f : pointerPos) * nrOfModes);
             }
 
             Vector3 pos = modeMenuPointer.transform.localPosition;
@@ -161,6 +158,7 @@ public class ChangeModeFunction : IFunction
                 mode = (EditMode) modeIndex;
                 selectedTextWrapper.GetComponent<TextMesh>().text = modeNames[modeIndex] + " mode";
                 meshManager.ToggleMode(player_id, mode);
+                controllerObject.GetComponent<Outline>().OutlineColor = modeColors[modeIndex];
             }
         }
 

@@ -42,6 +42,7 @@ public class Globals : MonoBehaviour
     public Material objectMaterial;
     public Material faceMaterial;
     public Material vertexMaterial;
+    public Color[] modeColor = new Color[3];
     public PrimitiveType swapMenuTypes;
     [Range(0f, 0.1f)]
     public float swapMenuElementScale;
