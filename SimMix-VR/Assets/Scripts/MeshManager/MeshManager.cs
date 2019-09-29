@@ -156,7 +156,7 @@ public class MeshManager : MonoBehaviour
         return players[player_id].edit_mode;
     }
 
-    public void ToggleMode(int player_id)
+    public void ToggleMode(int player_id, EditMode edit_mode)
     {
         Player p = players[player_id];
         switch (p.edit_mode)
@@ -175,9 +175,8 @@ public class MeshManager : MonoBehaviour
         players[player_id].selected_object = -1;
         players[player_id].selected_secondary = -1;
 
-        players[player_id].edit_mode = (EditMode)((int)(players[player_id].edit_mode + 1) % System.Enum.GetNames(typeof(EditMode)).Length);
-
-        //players[player_id].edit_mode = edit_mode;
+        //players[player_id].edit_mode = (EditMode)((int)(players[player_id].edit_mode + 1) % System.Enum.GetNames(typeof(EditMode)).Length);
+        players[player_id].edit_mode = edit_mode;
     }
     /////////////////////////////////////////////////////////////////////
 

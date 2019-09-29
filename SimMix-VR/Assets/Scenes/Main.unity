@@ -358,19 +358,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshManager: {fileID: 716130644}
+  cursorScale: 0.01
+  cursorMaterial: {fileID: 2100000, guid: 8ee72474c9ffc5149a61276a49e22d7a, type: 2}
   menuScale: 0.02
-  menuRadius: 3
+  menuRadius: 4
   menuThreshold: 0.5
-  menuRelativePosition: {x: 0, y: 0.05, z: -0.04}
-  menuRelativeRotation: {x: 8, y: 0, z: 0}
+  menuRelativePosition: {x: 0, y: 0.1, z: 0.1}
+  menuRelativeRotation: {x: -30, y: 0, z: 0}
   menuElementType: 2
   menuElementLocalScale: {x: 1, y: 0.01, z: 1}
   pointerElementType: 0
-  pointerMaterial: {fileID: 2100000, guid: 8d3fa75b92cbbe945ba04d414db364ab, type: 2}
-  unselectedMaterial: {fileID: 2100000, guid: d5539c819813a224b8bab75694a0963c, type: 2}
-  hooverMaterial: {fileID: 2100000, guid: 2d8aa2e2bec55c24682c60a371e22b1e, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 1b01dc60f0fe3b74da5332011fca594a, type: 2}
-  teleportRef: {fileID: 127236177}
+  MenuPointerMaterial: {fileID: 2100000, guid: 8d3fa75b92cbbe945ba04d414db364ab, type: 2}
+  MenuUnselectedMaterial: {fileID: 2100000, guid: d5539c819813a224b8bab75694a0963c,
+    type: 2}
+  MenuHooverMaterial: {fileID: 2100000, guid: 2d8aa2e2bec55c24682c60a371e22b1e, type: 2}
+  MenuSelectedMaterial: {fileID: 2100000, guid: 1b01dc60f0fe3b74da5332011fca594a,
+    type: 2}
+  teleportReference: {fileID: 127236177}
   lineOffset: {x: 0, y: 0.01, z: 0.01}
   lineMaxLength: 1000
   cursorHooverDistance: 0.02
@@ -380,6 +384,26 @@ MonoBehaviour:
   scalingFactor: 1
   clickScalingFactor: 3
   scalingTriggerThreshold: 0.7
+  objectMaterial: {fileID: 2100000, guid: 725860971cd8f434d8273772d6e0da15, type: 2}
+  faceMaterial: {fileID: 2100000, guid: 56588da32a9f57041a01aabb62b94726, type: 2}
+  vertexMaterial: {fileID: 2100000, guid: 2fa652fafd002ec418e2000a04d836fe, type: 2}
+  modeColor:
+  - {r: 0.94509804, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.74509805, a: 1}
+  - {r: 1, g: 0.19607843, b: 0, a: 1}
+  swapMenuTypes: 0
+  swapMenuElementScale: 0.015
+  swapMenuXOffset: 0.075
+  swapMenuYOffset: -0.1
+  swapMenuTextPadding: 0.025
+  swapMenuTextFontSize: 110
+  swapMenuTextColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 1, g: 1, b: 1, a: 0.5254902}
+  swapPointerMaterial: {fileID: 2100000, guid: 8d3fa75b92cbbe945ba04d414db364ab, type: 2}
+  modeSelectedTextOffset: {x: 0.05, y: 0, z: -0.17}
+  modePointerOffset: {x: 0.05, y: 0, z: -0.0875}
+  pointerMaxY: -0.0875
+  pointerMinY: -0.1375
 --- !u!4 &647022487
 Transform:
   m_ObjectHideFlags: 0
@@ -897,14 +921,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 1840255834}
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1231932278}
+      objectReference: {fileID: 1232644654}
+    - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2083452775}
+    - target: {fileID: 114000010876603736, guid: 4d293c8e162f3874b982baadd71153d2,
+        type: 3}
+      propertyPath: onTransformUpdated.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010876603736, guid: 4d293c8e162f3874b982baadd71153d2,
+        type: 3}
+      propertyPath: onTransformUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010876603736, guid: 4d293c8e162f3874b982baadd71153d2,
+        type: 3}
+      propertyPath: onTransformUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
 --- !u!1 &1181915140
@@ -938,7 +977,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1231932278
+--- !u!43 &1232644654
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -956,7 +995,7 @@ Mesh:
     vertexCount: 8
     localAABB:
       m_Center: {x: 0, y: 0.01, z: 0}
-      m_Extent: {x: 1.0375, y: 0, z: 1.1125001}
+      m_Extent: {x: 1.3000001, y: 0, z: 1}
   m_Shapes:
     vertices: []
     shapes: []
@@ -1035,7 +1074,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 288
-    _typelessdata: 3433633f0ad7233c676676bf0000803f365ceb3d000000000000803f0000000000000000343363bf0ad7233c676676bf0000803f365ceb3d000000000000803f0000803f00000000343363bf0ad7233c6766763f0000803f365ceb3d000000000000803f00000000000000003433633f0ad7233c6766763f0000803f365ceb3d000000000000803f0000803f00000000cdcc843f0ad7233c67668ebf0000803f365ceb3d0000000000000000000000000000803fcdcc84bf0ad7233c67668ebf0000803f365ceb3d00000000000000000000803f0000803fcdcc84bf0ad7233c67668e3f0000803f365ceb3d0000000000000000000000000000803fcdcc843f0ad7233c67668e3f0000803f365ceb3d00000000000000000000803f0000803f
+    _typelessdata: 3433933f0ad7233c9a9959bf0000803f365ceb3d000000000000803f0000000000000000343393bf0ad7233c9a9959bf0000803f365ceb3d000000000000803f0000803f00000000343393bf0ad7233c9a99593f0000803f365ceb3d000000000000803f00000000000000003433933f0ad7233c9a99593f0000803f365ceb3d000000000000803f0000803f000000006766a63f0ad7233c000080bf0000803f365ceb3d0000000000000000000000000000803f6766a6bf0ad7233c000080bf0000803f365ceb3d00000000000000000000803f0000803f6766a6bf0ad7233c0000803f0000803f365ceb3d0000000000000000000000000000803f6766a63f0ad7233c0000803f0000803f365ceb3d00000000000000000000803f0000803f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -1090,7 +1129,7 @@ Mesh:
     m_UVInfo: 0
   m_LocalAABB:
     m_Center: {x: 0, y: 0.01, z: 0}
-    m_Extent: {x: 1.0375, y: 0, z: 1.1125001}
+    m_Extent: {x: 1.3000001, y: 0, z: 1}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -1198,7 +1237,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1171379506}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1840255834
+--- !u!21 &2083452775
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0

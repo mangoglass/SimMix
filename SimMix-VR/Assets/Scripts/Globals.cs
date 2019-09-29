@@ -5,6 +5,10 @@ public class Globals : MonoBehaviour
     [Header("Mesh Manager global")]
     public MeshManager meshManager;
 
+    [Header("Cursor Variables")]
+    public float cursorScale;
+    public Material cursorMaterial;
+
     [Header("Menu Variables")]
     public float menuScale;
     public float menuRadius;
@@ -15,13 +19,13 @@ public class Globals : MonoBehaviour
     public PrimitiveType menuElementType;
     public Vector3 menuElementLocalScale;
     public PrimitiveType pointerElementType;
-    public Material pointerMaterial;
-    public Material unselectedMaterial;
-    public Material hooverMaterial;
-    public Material selectedMaterial;
+    public Material MenuPointerMaterial;
+    public Material MenuUnselectedMaterial;
+    public Material MenuHooverMaterial;
+    public Material MenuSelectedMaterial;
 
     [Header("Teleport Variables")]
-    public TeleportHandler teleportRef;
+    public TeleportHandler teleportReference;
     public Vector3 lineOffset;
     [Range(10f, 10000f)]
     public float lineMaxLength;
@@ -37,4 +41,24 @@ public class Globals : MonoBehaviour
     public float clickScalingFactor;
     [Range(0f, 1f)]
     public float scalingTriggerThreshold;
+
+    [Header("Edit Mode Variables")]
+    public Material objectMaterial;
+    public Material faceMaterial;
+    public Material vertexMaterial;
+    public Color[] modeColor = new Color[3];
+    public PrimitiveType swapMenuTypes;
+    [Range(0f, 0.1f)]
+    public float swapMenuElementScale;
+    public float swapMenuXOffset;
+    public float swapMenuYOffset;
+    public float swapMenuTextPadding;
+    public int swapMenuTextFontSize;
+    public Color swapMenuTextColor;
+    public Color selectedColor;
+    public Material swapPointerMaterial;
+    public Vector3 modeSelectedTextOffset;
+    public Vector3 modePointerOffset;
+    public float pointerMaxY;
+    public float pointerMinY;
 }

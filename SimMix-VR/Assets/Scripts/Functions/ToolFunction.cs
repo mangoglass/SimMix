@@ -4,16 +4,16 @@ using UnityEngine;
 public class ToolFunction : IFunction {
 
 
-    public enum ToolEnum { createPrimitive=0, translate=1,rotate=2,scale=3,extrude=4,color=5,magic=6,inset=7,switchMode=8,userScale=9};
+    public enum ToolEnum { createPrimitive=0, translate=1, rotate=2, scale=3, extrude=4, color=5, magic=6, inset=7, userScale=8 };
     public string[] toolnames =
-    { "create","translate","rotate","scale","extrude","color","magic","inset","switch mode","user scale" };
+    { "Create","Translate","Rotate","Scale","Extrude","Color","Magic","Inset","User Scale" };
 
 
     public ToolEnum equippedTool;
 
     private ITool[] tools;
 
-    public int player_id;
+    private int player_id;
     private MeshManager mesh_manager;
 
     public ToolFunction(Vector3 toolStartPos, int player_id, MeshManager mesh_manager)
@@ -33,7 +33,6 @@ public class ToolFunction : IFunction {
             new ColorTool(player_id),
             new MagicTool(player_id),
             new InsetTool(player_id),
-            new SwitchModeTool(player_id),
             new PlayerScaleTool(toolStartPos)
         };
     }

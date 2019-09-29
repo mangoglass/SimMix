@@ -2,6 +2,7 @@
 
 public class SwitchModeTool : ITool 
 {
+    /*
     private MeshManager mesh_manager;
     private int player_id;
 
@@ -11,13 +12,15 @@ public class SwitchModeTool : ITool
         mesh_manager = glob.meshManager;
         this.player_id = player_id;
     }
+    */
 
     public void Apply( IInputParser input) 
     {
+        /*       
         if (input.ToolLastTriggerValue() == 0) 
         {
             mesh_manager.ToggleMode(player_id);
-        }
+        }*/
     }
 
 }
