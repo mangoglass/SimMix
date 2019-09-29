@@ -12,7 +12,7 @@ public class ToolFunction : IFunction {
     public ToolEnum equippedTool;
 
     private ITool[] tools;
-
+    private float triggerThreshold;
     private int player_id;
     private MeshManager mesh_manager;
 
@@ -35,13 +35,16 @@ public class ToolFunction : IFunction {
             new InsetTool(player_id),
             new PlayerScaleTool(toolStartPos)
         };
+
+        Globals globals = Object.FindObjectOfType<Globals>();
+        triggerThreshold = globals.toolTriggerThreshold;
     }
 
     public bool Call(IInputParser input) 
     {
         tools[(int)equippedTool].Apply(input);
 
-        bool maintainState = input.ToolTriggerValue() > 0;
+        bool maintainState = input.ToolTriggerValue() > triggerThreshold;
         mesh_manager.SetUpdateSelected(player_id, !maintainState);
 
         return maintainState; 

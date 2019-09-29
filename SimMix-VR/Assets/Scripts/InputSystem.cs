@@ -21,6 +21,7 @@ public class InputSystem : MonoBehaviour
     private IFunction[] functions;
     private FunctionEnum state;
     private GameObject cursor;
+    private float triggerThreshold;
 
     void Start() 
     {
@@ -54,6 +55,9 @@ public class InputSystem : MonoBehaviour
         };
 
         StartCoroutine(OutLineCreator(1f, controllerModel, glob.modeColor[0]));
+
+        // Gets the tool trigger threshold value, fixes Oculus Touch bug.
+        triggerThreshold = glob.toolTriggerThreshold;
     }
 
     // Update is called once per frame
@@ -69,39 +73,44 @@ public class InputSystem : MonoBehaviour
         switch (state) 
         {
             case FunctionEnum.none:
-                if (inputParser.ToolTriggerValue() > 0) 
+                if (inputParser.ToolTriggerValue() > triggerThreshold) 
                 {
+                    Debug.Log(inputParser.ToolTriggerValue());
                     state = FunctionEnum.tool;
                     maintainState = functions[(int)FunctionEnum.tool].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering tool action state");
+                    Debug.Log(controller.ToString() + " entering tool state");
                 }
 
                 else if (inputParser.MenuDisplayBool()) 
                 {
                     state = FunctionEnum.menu;
                     maintainState = functions[(int)FunctionEnum.menu].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering menu action state");
+                    Debug.Log(controller.ToString() + " entering menu state");
                 }
 
                 else if (inputParser.TeleportBool()) 
                 {
                     state = FunctionEnum.teleport;
                     maintainState = functions[(int)FunctionEnum.teleport].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering teleport action state");
+                    Debug.Log(controller.ToString() + " entering teleport state");
                 }
 
                 else if (inputParser.SwapBool()) 
                 {
                     state = FunctionEnum.swap;
                     maintainState = functions[(int)FunctionEnum.swap].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering swaping action state");
+                    Debug.Log(controller.ToString() + " entering swaping state");
                 }
 
                 break;
 
             default:
                 maintainState = functions[(int)state].Call(inputParser);
-                if (!maintainState) { state = FunctionEnum.none; }
+                if (!maintainState)
+                {
+                    state = FunctionEnum.none;
+                    Debug.Log(controller.ToString() + " entering none state");
+                }
                 break;
         }
     }

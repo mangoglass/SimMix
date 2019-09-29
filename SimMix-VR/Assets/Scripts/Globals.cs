@@ -9,6 +9,9 @@ public class Globals : MonoBehaviour
     public float cursorScale;
     public Material cursorMaterial;
 
+    [Header("Tool Variables")]
+    public float toolTriggerThreshold;
+
     [Header("Menu Variables")]
     public float menuScale;
     public float menuRadius;
