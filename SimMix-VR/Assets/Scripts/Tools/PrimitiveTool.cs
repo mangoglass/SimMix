@@ -56,7 +56,7 @@ public class PrimitiveTool : ITool
                 cubeClone.GetComponent<MeshRenderer>().material = cloneMat;
                 */
 
-                meshManager.CreateCube(pos, 0.15f);
+                meshManager.CreateIcosphere(pos, 0.15f);
             }
         }
 
