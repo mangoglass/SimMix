@@ -4,15 +4,15 @@ using UnityEngine;
 public class ToolFunction : IFunction {
 
 
-    public enum ToolEnum { createPrimitive=0, translate=1, rotate=2, scale=3, extrude=4, color=5, magic=6, inset=7, userScale=8 };
+    public enum ToolEnum { createPrimitive=0, translate=1, rotate=2, scale=3, extrude=4, color=5, inset=6, userScale=7,copy=8,delete=9 };
     public string[] toolnames =
-    { "Create","Translate","Rotate","Scale","Extrude","Color","Magic","Inset","User Scale" };
+    { "Create","Translate","Rotate","Scale","Extrude","Color","Inset","User Scale","Copy","Delete" };
 
 
     public ToolEnum equippedTool;
 
     private ITool[] tools;
-
+    private float triggerThreshold;
     private int player_id;
     private MeshManager mesh_manager;
 
@@ -31,17 +31,22 @@ public class ToolFunction : IFunction {
             new ScaleTool(player_id),
             new ExtrudeTool(player_id),
             new ColorTool(player_id),
-            new MagicTool(player_id),
             new InsetTool(player_id),
-            new PlayerScaleTool(toolStartPos)
+            new PlayerScaleTool(toolStartPos),
+            new CopyTool(player_id),
+            new DeleteTool(player_id),
+
         };
+
+        Globals globals = Object.FindObjectOfType<Globals>();
+        triggerThreshold = globals.toolTriggerThreshold;
     }
 
     public bool Call(IInputParser input) 
     {
         tools[(int)equippedTool].Apply(input);
 
-        bool maintainState = input.ToolTriggerValue() > 0;
+        bool maintainState = input.ToolTriggerValue() > triggerThreshold;
         mesh_manager.SetUpdateSelected(player_id, !maintainState);
 
         return maintainState; 
