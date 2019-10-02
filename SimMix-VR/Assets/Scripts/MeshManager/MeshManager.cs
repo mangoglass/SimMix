@@ -60,8 +60,7 @@ public class MeshManager : MonoBehaviour
     void Awake()
     {
         players = new List<Player>();
-        //min_select_dist = 0.3;
-        min_select_dist = 1.5;
+        min_select_dist = 0.3;
 
         trimeshes = new Dictionary<int, MyTriMesh>();
 
@@ -89,8 +88,7 @@ public class MeshManager : MonoBehaviour
             p.vertex_renderer.SetActive(false);
         }
 
-        //min_select_dist = 0.3;
-        min_select_dist = 1.5;
+        min_select_dist = 0.3;
         last_mesh_id = 0;
         trimeshes = new Dictionary<int, MyTriMesh>();
         CreateCube(new Vector3(0, 0.15f, 0), 0.3f);
@@ -164,7 +162,7 @@ public class MeshManager : MonoBehaviour
         player.line_renderer = gagoo.AddComponent<LineRenderer>();
         //player.line_renderer.startWidth = 0.1f;
         //player.line_renderer.endWidth = 0.1f;
-        player.line_renderer.widthMultiplier = 0.03f;
+        player.line_renderer.widthMultiplier = 0.005f;
         //player.line_renderer.alignment = LineAlignment.Local
         player.line_renderer.positionCount = 3;
         player.line_renderer.enabled = false;
@@ -172,7 +170,7 @@ public class MeshManager : MonoBehaviour
 
         player.vertex_renderer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         player.vertex_renderer.transform.SetParent(gameObject.transform);
-        player.vertex_renderer.transform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+        player.vertex_renderer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         player.vertex_renderer.SetActive(false);
         player.vertex_renderer.GetComponent<Renderer>().material.color = Color.green;
 
@@ -353,7 +351,7 @@ public class MeshManager : MonoBehaviour
         Player p = players[player_id];
 
         //p.line_renderer.SetPositions(mesh.GetFaceVerti(face_id));
-        p.line_renderer.SetPositions(mesh.GetDisplacedFaceVerti(face_id, 0.01f));
+        p.line_renderer.SetPositions(mesh.GetDisplacedFaceVerti(face_id, 0.0025f));
 
         p.line_renderer.enabled = true;
         //mesh.SelectFace(face_id);
