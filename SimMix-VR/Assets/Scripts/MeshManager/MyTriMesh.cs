@@ -14,6 +14,8 @@ public class MyTriMesh : MonoBehaviour
     Mesh mesh;
     bool rerender;
 
+    Outline outline;
+
     public void Awake()
     {
         faces = new Dictionary<int, MyMeshFace>();
@@ -25,6 +27,14 @@ public class MyTriMesh : MonoBehaviour
     {
         mesh = new Mesh();
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
+
+
+        ////////
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineMode = Outline.Mode.OutlineAll;
+        outline.enabled = false;
+        outline.OutlineColor = (Color.red + Color.yellow) / 2.0f;
+        outline.OutlineWidth = 6.0f;
     }
 
     public void Update()
@@ -34,6 +44,22 @@ public class MyTriMesh : MonoBehaviour
             Render();
             rerender = false;
         }
+    }
+
+    public void CloneFrom(MyTriMesh og_tri_mesh)
+    {
+        rerender = true;
+        last_face = og_tri_mesh.last_face;
+        last_vertex = og_tri_mesh.last_vertex;
+
+        verti = new Dictionary<int, Vector3>(og_tri_mesh.verti);
+
+        faces = new Dictionary<int, MyMeshFace>();
+        foreach (KeyValuePair<int, MyMeshFace> entry in og_tri_mesh.faces)
+        {
+            faces.Add(entry.Key, entry.Value.Clone());
+        }
+
     }
 
     public void Render()
@@ -106,6 +132,11 @@ public class MyTriMesh : MonoBehaviour
     }
 
 
+    public Vector3[] GetFaceVerti(int face_id)
+    {
+        return faces[face_id].vertices.Select(x => verti[x]).ToArray();
+    }
+
     public (int, float) GetClosestVertex(Vector3 position)
     {
         float min_dist = float.MaxValue;
@@ -160,9 +191,20 @@ public class MyTriMesh : MonoBehaviour
     }
 
     public Vector3 GetCenterFace(int face_id)
-	{
-		return GetCenter(faces[face_id].vertices);
-	}
+    {
+        return GetCenter(faces[face_id].vertices);
+    }
+
+    public Vector3[] GetDisplacedFaceVerti(int face_id, float displacement)
+    {
+        Vector3 v0 = verti[faces[face_id].vertices[0]];
+        Vector3 v1 = verti[faces[face_id].vertices[1]];
+        Vector3 v2 = verti[faces[face_id].vertices[2]];
+        Vector3 n = Vector3.Normalize(Vector3.Cross(v2 - v0, v1 - v0));
+        return new Vector3[3] { v0 + displacement * n, v1 + displacement * n, v2 + displacement * n };
+
+
+    }
 
 
     public void Translate(int vert_id, Vector3 diff)
@@ -215,18 +257,18 @@ public class MyTriMesh : MonoBehaviour
         Scale(faces[face_id].vertices, factor);
     }
 
-    public void Rotate(Vector3 euler_angles)
+    public void Rotate(Quaternion rotation)
     {
         rerender = true;
-        Rotate(verti.Keys.ToArray(), euler_angles);
+        Rotate(verti.Keys.ToArray(), rotation);
     }
 
-    public void Rotate(int[] vert_ids, Vector3 euler_angles)
+    public void Rotate(int[] vert_ids, Quaternion rotation)
     {
         rerender = true;
 
         Vector3 center = GetCenter(vert_ids);
-        Quaternion rotation = Quaternion.Euler(euler_angles.x, euler_angles.y, euler_angles.z);
+        //Quaternion rotation = Quaternion.Euler(euler_angles.x, euler_angles.y, euler_angles.z);
         Matrix4x4 m = Matrix4x4.Rotate(rotation);
 
         foreach (int vert_id in vert_ids)
@@ -235,10 +277,10 @@ public class MyTriMesh : MonoBehaviour
         }
     }
 
-    public void RotateFace(int face_id, Vector3 euler_angles)
+    public void RotateFace(int face_id, Quaternion rotation)
     {
         rerender = true;
-        Rotate(faces[face_id].vertices, euler_angles);
+        Rotate(faces[face_id].vertices, rotation);
     }
 
     public void Extrude(int face_id)
@@ -289,7 +331,11 @@ public class MyTriMesh : MonoBehaviour
     public void Select()
     {
         rerender = true;
-        SelectFace(faces.Keys.ToArray());
+        //kan inte göra såhär
+        //SelectFace(faces.Keys.ToArray());
+
+        outline.enabled = true;
+
     }
 
     public void SelectFace(int[] face_ids)
@@ -311,7 +357,10 @@ public class MyTriMesh : MonoBehaviour
     public void Deselect()
     {
         rerender = true;
-        DeselectFace(faces.Keys.ToArray());
+
+        outline.enabled = false;
+        //kan inte göra såhär
+        //DeselectFace(faces.Keys.ToArray());
     }
 
     public void DeselectFace(int[] face_ids)
@@ -330,9 +379,9 @@ public class MyTriMesh : MonoBehaviour
     }
 
     public Vector3 GetVert(int vert_id)
-	{
-		return verti[vert_id];
-	}
+    {
+        return verti[vert_id];
+    }
 }
 
 // :)
@@ -342,12 +391,21 @@ public class MyMeshFace
     public Color color;
     public bool selected;
 
+    public MyMeshFace Clone()
+    {
+        MyMeshFace mmf = new MyMeshFace(vertices[0], vertices[1], vertices[2]);
+        mmf.color = color;
+        return mmf;
+    }
+
     public MyMeshFace(int v0, int v1, int v2)
     {
         selected = false;
         vertices = new int[] { v0, v1, v2 };
         //color = Color.gray;
-        color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 1f, 1f);
+        //color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 1f, 1f);
+        color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.7f, 1f);
+
     }
 
 

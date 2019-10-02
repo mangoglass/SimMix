@@ -5,7 +5,9 @@ public class RotateTool : ITool
     private MeshManager mesh_manager;
     private int player_id;
 
-    private Vector3 last_rotation;
+    private Vector3 last_pos;
+    public Vector3 center;
+
 
     public RotateTool(int player_id) 
     {
@@ -16,14 +18,26 @@ public class RotateTool : ITool
 
     public void Apply( IInputParser input) 
     {
-        Vector3 rotation = input.GetTransform().eulerAngles;
+        Vector3 position = input.GetTransform().position;
 
-        if (input.ToolLastTriggerValue() != 0) 
+        if (input.ToolLastTriggerValue() == 0) 
         {
-            mesh_manager.Rotate(player_id, rotation - last_rotation);
-        }
+            center = mesh_manager.GetCenter(player_id);
 
-        last_rotation = rotation;
+        }else
+        {
+            Vector3 w1 = last_pos - center;
+            Vector3 w2 = position - center;
+
+            Vector3 a = Vector3.Cross(w1, w2);
+            float w = Mathf.Sqrt(Vector3.Dot(w1, w1) * Vector3.Dot(w2, w2)) + Vector3.Dot(w1, w2);
+            Quaternion q = new Quaternion(a.x, a.y, a.z, w);
+            q.Normalize();
+            mesh_manager.Rotate(player_id, q);
+        }
+        last_pos = position;
+
+
     }
 
 }

@@ -17,6 +17,8 @@ public class Player
     public int selected_secondary;
     public bool update_selected;
     public EditMode edit_mode;
+    public LineRenderer line_renderer;
+    public GameObject vertex_renderer;
 
 }
 
@@ -35,30 +37,32 @@ public class MeshManager : MonoBehaviour
 
     void OnGUI()
     {
-        /*
-        GUIStyle gs = new GUIStyle();
-        gs.fontSize = 100;
-        Player p = players[0];
-        switch (p.edit_mode)
-        {
-            case EditMode.Object:
-                GUILayout.Label("OBJECT MODE", gs);
-                break;
-            case EditMode.Face:
-                GUILayout.Label("FACE MODE", gs);
-                break;
-            case EditMode.Vertex:
-                GUILayout.Label("VERTEX MODE", gs);
-                break;
-        }
-        */
+
+        //GUIStyle gs = new GUIStyle();
+        //gs.fontSize = 100;
+        //Player p = players[0];
+        //switch (p.edit_mode)
+        //{
+        //    case EditMode.Object:
+        //        GUILayout.Label("OBJECT MODE", gs);
+        //        break;
+        //    case EditMode.Face:
+        //        GUILayout.Label("FACE MODE", gs);
+        //        break;
+        //    case EditMode.Vertex:
+        //        GUILayout.Label("VERTEX MODE", gs);
+        //        break;
+        //}
+
     }
 
     // Start is called before the first frame update
     void Awake()
     {
         players = new List<Player>();
-        min_select_dist = 0.3;
+        //min_select_dist = 0.3;
+        min_select_dist = 1.5;
+
         trimeshes = new Dictionary<int, MyTriMesh>();
 
         last_mesh_id = 0;
@@ -69,14 +73,28 @@ public class MeshManager : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            Destroy(child.gameObject);
+            if (child.GetComponent<MyTriMesh>() != null)
+            {
+                Destroy(child.gameObject);
+
+            }
         }
 
-        min_select_dist = 0.3;
+        foreach (Player p in players)
+        {
+            p.selected_object = -1;
+            p.selected_secondary = -1;
+            p.line_renderer.enabled = false;
+
+            p.vertex_renderer.SetActive(false);
+        }
+
+        //min_select_dist = 0.3;
+        min_select_dist = 1.5;
         last_mesh_id = 0;
         trimeshes = new Dictionary<int, MyTriMesh>();
-        CreateCube(new Vector3(0, 0, 0), 0.3f);
-        CreateCube(new Vector3(0.5f, 0, 0.5f), 0.3f);
+        CreateCube(new Vector3(0, 0.15f, 0), 0.3f);
+        //CreateCube(new Vector3(0.15f, 0.15f, 0.15f), 0.3f);
 
 
     }
@@ -141,6 +159,23 @@ public class MeshManager : MonoBehaviour
         player.update_selected = true;
         player.edit_mode = EditMode.Object;
 
+        GameObject gagoo = new GameObject("bop") as GameObject;
+        gagoo.transform.SetParent(gameObject.transform);
+        player.line_renderer = gagoo.AddComponent<LineRenderer>();
+        //player.line_renderer.startWidth = 0.1f;
+        //player.line_renderer.endWidth = 0.1f;
+        player.line_renderer.widthMultiplier = 0.03f;
+        //player.line_renderer.alignment = LineAlignment.Local
+        player.line_renderer.positionCount = 3;
+        player.line_renderer.enabled = false;
+        player.line_renderer.loop = true;
+
+        player.vertex_renderer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        player.vertex_renderer.transform.SetParent(gameObject.transform);
+        player.vertex_renderer.transform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+        player.vertex_renderer.SetActive(false);
+        player.vertex_renderer.GetComponent<Renderer>().material.color = Color.green;
+
         players.Add(player);
         return players.Count - 1;
     }
@@ -165,9 +200,10 @@ public class MeshManager : MonoBehaviour
                 DeselectObject(p.selected_object);
                 break;
             case EditMode.Face:
-                DeselectFace(p.selected_object, p.selected_secondary);
+                DeselectFace(player_id, p.selected_object, p.selected_secondary);
                 break;
             case EditMode.Vertex:
+                DeselectVertex(player_id);
                 break;
         }
 
@@ -228,7 +264,60 @@ public class MeshManager : MonoBehaviour
 
     }
 
+    public void CreateIcosphere(Vector3 position, float diameter)
+    {
 
+        MyTriMesh mesh = InitMesh("Ico");
+
+        float radius = diameter / 2.0f;
+        float t = ((1.0f + Mathf.Sqrt(5)) / 2.0f) * radius;
+
+        //Vector3 e0 = new Vector3(half_side, 0, 0);
+        //Vector3 e1 = new Vector3(0, half_side, 0);
+        //Vector3 e2 = new Vector3(0, 0, half_side);
+        int p0 = mesh.CreateVertex(position + new Vector3(-radius, t, 0));
+        int p1 = mesh.CreateVertex(position + new Vector3(radius, t, 0));
+        int p2 = mesh.CreateVertex(position + new Vector3(-radius, -t, 0));
+        int p3 = mesh.CreateVertex(position + new Vector3(radius, -t, 0));
+
+        int p4 = mesh.CreateVertex(position + new Vector3(0, -radius, t));
+        int p5 = mesh.CreateVertex(position + new Vector3(0, radius, t));
+        int p6 = mesh.CreateVertex(position + new Vector3(0, -radius, -t));
+        int p7 = mesh.CreateVertex(position + new Vector3(0, radius, -t));
+
+        int p8 = mesh.CreateVertex(position + new Vector3(t, 0, -radius));
+        int p9 = mesh.CreateVertex(position + new Vector3(t, 0, radius));
+        int p10 = mesh.CreateVertex(position + new Vector3(-t, 0, -radius));
+        int p11 = mesh.CreateVertex(position + new Vector3(-t, 0, radius));
+
+        mesh.CreateFace(p11, p0, p5);
+        mesh.CreateFace(p5, p0, p1);
+        mesh.CreateFace(p1, p0, p7);
+        mesh.CreateFace(p7, p0, p10);
+        mesh.CreateFace(p10, p0, p11);
+
+        mesh.CreateFace(p5, p1, p9);
+        mesh.CreateFace(p11, p5, p4);
+        mesh.CreateFace(p10, p11, p2);
+        mesh.CreateFace(p7, p10, p6);
+        mesh.CreateFace(p1, p7, p8);
+
+        mesh.CreateFace(p9, p3, p4);
+        mesh.CreateFace(p4, p3, p2);
+        mesh.CreateFace(p2, p3, p6);
+        mesh.CreateFace(p6, p3, p8);
+        mesh.CreateFace(p8, p3, p9);
+
+        mesh.CreateFace(p9, p4, p5);
+        mesh.CreateFace(p4, p2, p11);
+        mesh.CreateFace(p2, p6, p10);
+        mesh.CreateFace(p6, p8, p7);
+        mesh.CreateFace(p8, p9, p1);
+
+        last_mesh_id++;
+        trimeshes.Add(last_mesh_id, mesh);
+
+    }
 
 
     public void Select(int player_id)
@@ -240,9 +329,10 @@ public class MeshManager : MonoBehaviour
                 SelectObject(p.selected_object);
                 break;
             case EditMode.Face:
-                SelectFace(p.selected_object, p.selected_secondary);
+                SelectFace(player_id, p.selected_object, p.selected_secondary);
                 break;
             case EditMode.Vertex:
+                SelectVertex(player_id, p.selected_object, p.selected_secondary);
                 break;
         }
     }
@@ -254,12 +344,33 @@ public class MeshManager : MonoBehaviour
         mesh.Select();
     }
 
-    public void SelectFace(int obj_id, int face_id)
+    public void SelectFace(int player_id, int obj_id, int face_id)
     {
         if (obj_id < 0) return;
 
         MyTriMesh mesh = trimeshes[obj_id];
-        mesh.SelectFace(face_id);
+
+        Player p = players[player_id];
+
+        //p.line_renderer.SetPositions(mesh.GetFaceVerti(face_id));
+        p.line_renderer.SetPositions(mesh.GetDisplacedFaceVerti(face_id, 0.01f));
+
+        p.line_renderer.enabled = true;
+        //mesh.SelectFace(face_id);
+    }
+
+    public void SelectVertex(int player_id, int obj_id, int vert_id)
+    {
+        if (obj_id < 0) return;
+
+        MyTriMesh mesh = trimeshes[obj_id];
+
+        Player p = players[player_id];
+
+        p.vertex_renderer.transform.position = mesh.GetVert(vert_id);
+
+        p.vertex_renderer.SetActive(true);
+        //mesh.SelectFace(face_id);
     }
 
     public void Deselect(int player_id)
@@ -271,9 +382,10 @@ public class MeshManager : MonoBehaviour
                 DeselectObject(p.selected_object);
                 break;
             case EditMode.Face:
-                DeselectFace(p.selected_object, p.selected_secondary);
+                DeselectFace(player_id, p.selected_object, p.selected_secondary);
                 break;
             case EditMode.Vertex:
+                DeselectVertex(player_id);
                 break;
         }
     }
@@ -286,12 +398,18 @@ public class MeshManager : MonoBehaviour
         mesh.Deselect();
     }
 
-    public void DeselectFace(int obj_id, int face_id)
+    public void DeselectFace(int player_id, int obj_id, int face_id)
     {
         if (obj_id < 0) return;
 
-        MyTriMesh mesh = trimeshes[obj_id];
-        mesh.DeselectFace(face_id);
+        players[player_id].line_renderer.enabled = false;
+        //MyTriMesh mesh = trimeshes[obj_id];
+        //mesh.DeselectFace(face_id);
+    }
+
+    public void DeselectVertex(int player_id)
+    {
+        players[player_id].vertex_renderer.SetActive(false);
     }
 
 
@@ -357,7 +475,7 @@ public class MeshManager : MonoBehaviour
 
     }
 
-    public void Rotate(int player_id, Vector3 euler_angles)
+    public void Rotate(int player_id, Quaternion rotation)
     {
         Player p = players[player_id];
 
@@ -366,10 +484,10 @@ public class MeshManager : MonoBehaviour
         switch (p.edit_mode)
         {
             case EditMode.Object:
-                mesh.Rotate(euler_angles);
+                mesh.Rotate(rotation);
                 break;
             case EditMode.Face:
-                mesh.RotateFace(p.selected_secondary, euler_angles);
+                mesh.RotateFace(p.selected_secondary, rotation);
                 break;
             case EditMode.Vertex:
                 break;
@@ -387,29 +505,59 @@ public class MeshManager : MonoBehaviour
         mesh.Extrude(p.selected_secondary);
     }
 
-	public Vector3 GetCenter(int player_id)
-	{
-		Player p = players[player_id];
+    public void Delete(int player_id)
+    {
+        Player p = players[player_id];
+        if (p.edit_mode != EditMode.Object) return;
 
-		MyTriMesh mesh;
-		if (!trimeshes.TryGetValue(p.selected_object, out mesh)) return new Vector3(0,0,0);
-		switch (p.edit_mode)
-		{
-			case EditMode.Object:
-				return mesh.GetCenter();
-			case EditMode.Face:
-				return mesh.GetCenterFace(p.selected_secondary);
-			case EditMode.Vertex:
-				return mesh.GetVert(p.selected_secondary);
-		}
+        MyTriMesh mesh;
+        if (!trimeshes.TryGetValue(p.selected_object, out mesh)) return;
+        trimeshes.Remove(p.selected_object);
+        Destroy(mesh.gameObject);
+        p.selected_object = -1;
+    }
+
+    public void Copy(int player_id)
+    {
+        Player p = players[player_id];
+        if (p.edit_mode != EditMode.Object) return;
+
+        MyTriMesh mesh;
+        if (!trimeshes.TryGetValue(p.selected_object, out mesh)) return;
+        Deselect(player_id);
+
+
+        MyTriMesh mesh2 = InitMesh("Cooler " + mesh.name);
+        mesh2.CloneFrom(mesh);
+        last_mesh_id++;
+        p.selected_object = last_mesh_id;
+        trimeshes.Add(last_mesh_id, mesh2);
+        Select(player_id);
+    }
+
+    public Vector3 GetCenter(int player_id)
+    {
+        Player p = players[player_id];
+
+        MyTriMesh mesh;
+        if (!trimeshes.TryGetValue(p.selected_object, out mesh)) return new Vector3(0, 0, 0);
+        switch (p.edit_mode)
+        {
+            case EditMode.Object:
+                return mesh.GetCenter();
+            case EditMode.Face:
+                return mesh.GetCenterFace(p.selected_secondary);
+            case EditMode.Vertex:
+                return mesh.GetVert(p.selected_secondary);
+        }
         return new Vector3(0, 0, 0);
 
     }
 
-	/////////////////////////////////////////////////////////////////////
-	///
+    /////////////////////////////////////////////////////////////////////
+    ///
 
-	public (int, int, float) GetClosestVertex(Vector3 position)
+    public (int, int, float) GetClosestVertex(Vector3 position)
     {
         float min_dist = float.MaxValue;
         int min_obj_id = 0;
