@@ -12,18 +12,22 @@ public class NetworkPlayerControl : NetworkBehaviour
     public Transform right_hand;
     public GameObject camera_rig;
     public GameObject debug_camera;
+    public GameObject spectator_camera;
     //DEBUG!!!
     public GameObject spawnObject;
     public TextMesh debugText;
     [SyncVar]
     private int debugInt = 10;
+
     void Start()
     {
 
         if (!isLocalPlayer)
         {
             Destroy(camera_rig);
-        } else
+            Destroy(spectator_camera);
+        }
+        else
         {
             left_hand.GetComponentInChildren<MeshRenderer>().enabled = false;
             right_hand.GetComponentInChildren<MeshRenderer>().enabled = false;
@@ -56,7 +60,6 @@ public class NetworkPlayerControl : NetworkBehaviour
                 debugInt--;
                 debugText.text = debugInt.ToString();
             }
-             
 
         }
             
