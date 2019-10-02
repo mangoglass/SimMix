@@ -17,7 +17,6 @@ public class Player
     public int selected_secondary;
     public bool update_selected;
     public EditMode edit_mode;
-
 }
 
 public class MeshManager : MonoBehaviour
@@ -30,6 +29,7 @@ public class MeshManager : MonoBehaviour
 
 
     public Material default_material;
+    // sync this!
     public Dictionary<int, MyTriMesh> trimeshes;
     int last_mesh_id;
 
