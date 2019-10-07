@@ -75,7 +75,6 @@ public class InputSystem : MonoBehaviour
             case FunctionEnum.none:
                 if (inputParser.ToolTriggerValue() > triggerThreshold) 
                 {
-                    Debug.Log(inputParser.ToolTriggerValue());
                     state = FunctionEnum.tool;
                     maintainState = functions[(int)FunctionEnum.tool].Call(inputParser);
                     //Debug.Log(controller.ToString() + " entering tool state");
