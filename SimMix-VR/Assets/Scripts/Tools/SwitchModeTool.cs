@@ -14,7 +14,7 @@ public class SwitchModeTool : ITool
     }
     */
 
-    public void Apply( IInputParser input) 
+    public void Apply( IInputParser input, bool isFirstFrame) 
     {
         /*       
         if (input.ToolLastTriggerValue() == 0) 

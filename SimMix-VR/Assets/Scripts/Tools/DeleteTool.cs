@@ -12,13 +12,11 @@ public class DeleteTool : ITool
         this.player_id = player_id;
     }
 
-    public void Apply( IInputParser input) 
+    public void Apply( IInputParser input, bool isFirstFrame) 
     {
-
-        if (input.ToolLastTriggerValue() == 0)
+        if (isFirstFrame)
         {
             mesh_manager.Delete(player_id);
         }
-
     }
 }

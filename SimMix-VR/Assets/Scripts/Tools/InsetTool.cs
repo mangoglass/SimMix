@@ -15,12 +15,12 @@ public class InsetTool : ITool
         this.player_id = player_id;
     }
 
-    public void Apply(IInputParser input)
+    public void Apply(IInputParser input, bool isFirstFrame)
     {
         Vector3 pos = input.GetTransform().position;
         float dist;
 
-        if (input.ToolLastTriggerValue() == 0) 
+        if (isFirstFrame) 
         {
             mesh_manager.Extrude(player_id);
 

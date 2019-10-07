@@ -78,38 +78,40 @@ public class InputSystem : MonoBehaviour
                     Debug.Log(inputParser.ToolTriggerValue());
                     state = FunctionEnum.tool;
                     maintainState = functions[(int)FunctionEnum.tool].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering tool state");
+                    //Debug.Log(controller.ToString() + " entering tool state");
                 }
 
                 else if (inputParser.MenuDisplayBool()) 
                 {
                     state = FunctionEnum.menu;
                     maintainState = functions[(int)FunctionEnum.menu].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering menu state");
+                    //Debug.Log(controller.ToString() + " entering menu state");
                 }
 
                 else if (inputParser.TeleportBool()) 
                 {
                     state = FunctionEnum.teleport;
                     maintainState = functions[(int)FunctionEnum.teleport].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering teleport state");
+                    //Debug.Log(controller.ToString() + " entering teleport state");
                 }
 
                 else if (inputParser.SwapBool()) 
                 {
                     state = FunctionEnum.swap;
                     maintainState = functions[(int)FunctionEnum.swap].Call(inputParser);
-                    Debug.Log(controller.ToString() + " entering swaping state");
+                    //Debug.Log(controller.ToString() + " entering swaping state");
                 }
 
                 break;
 
             default:
+
                 maintainState = functions[(int)state].Call(inputParser);
+
                 if (!maintainState)
                 {
                     state = FunctionEnum.none;
-                    Debug.Log(controller.ToString() + " entering none state");
+                    //Debug.Log(controller.ToString() + " entering none state");
                 }
                 break;
         }

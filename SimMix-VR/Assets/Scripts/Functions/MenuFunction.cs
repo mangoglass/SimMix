@@ -138,8 +138,7 @@ public class MenuFunction : IFunction
                     menuElements[hooverElement].GetComponent<MeshRenderer>().material = hoverMat;
                 }
 
-                //if (input.MenuClickBool() && hooverElement != selectedElement) 
-                if (hooverElement != selectedElement) 
+                if (input.MenuClickBool() && hooverElement != selectedElement) 
                 {
                     menuElements[hooverElement].GetComponent<MeshRenderer>().material = selectedMat;
                     Debug.Log("selected: " + selectedElement);

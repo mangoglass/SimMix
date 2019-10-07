@@ -530,7 +530,6 @@ public class MeshManager : MonoBehaviour
         last_mesh_id++;
         p.selected_object = last_mesh_id;
         trimeshes.Add(last_mesh_id, mesh2);
-        Select(player_id);
     }
 
     public Vector3 GetCenter(int player_id)

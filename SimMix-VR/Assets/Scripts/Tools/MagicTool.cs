@@ -15,12 +15,12 @@ public class MagicTool : ITool
         this.player_id = player_id;
     }
 
-    public void Apply( IInputParser input) 
+    public void Apply( IInputParser input, bool isFirstFrame) 
     {
         Vector3 pos = input.GetTransform().position;
         Vector3 rotation = input.GetTransform().eulerAngles;
 
-        if (input.ToolLastTriggerValue() != 0) 
+        if (!isFirstFrame) 
         {
             mesh_manager.Translate(player_id, pos - last_pos);
             //mesh_manager.Rotate(player_id, rotation - last_rotation);
