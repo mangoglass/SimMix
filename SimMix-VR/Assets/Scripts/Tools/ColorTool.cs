@@ -12,7 +12,7 @@ public class ColorTool : ITool
         this.player_id = player_id;
     }
 
-    public void Apply(IInputParser input)
+    public void Apply(IInputParser input, bool isFirstFrame)
     {
         //if (input.ToolBoolDown())
         //{
@@ -20,8 +20,6 @@ public class ColorTool : ITool
         //}
         Vector3 ea = input.GetTransform().eulerAngles;
         mesh_manager.SetColor(player_id, new Color(ea.x / 360.0f,ea.y / 360.0f, ea.z / 360.0f));
-
-
     }
 
 }

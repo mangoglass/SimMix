@@ -4,14 +4,16 @@ public class PrimitiveTool : ITool
 {
     private enum PrimitiveEnum { cube = 0 };
     private GameObject[] primitives;
-    private float m_minToolVisibility;
+    private float minToolVisibility;
+    private float objectDistance;
     private MeshManager meshManager;
 
     public PrimitiveTool() 
     {
         Globals globals = Object.FindObjectOfType<Globals>();
 
-        m_minToolVisibility = globals.minToolVisibility;
+        minToolVisibility = globals.minToolVisibility;
+        objectDistance = globals.objectDistanceFromController;
         meshManager = globals.meshManager;
 
         primitives = new GameObject[]
@@ -30,7 +32,7 @@ public class PrimitiveTool : ITool
         }
     }
 
-    public void Apply(IInputParser input) 
+    public void Apply(IInputParser input, bool isFirstFrame) 
     {
         float triggerValue = input.ToolTriggerValue();
 
@@ -40,23 +42,16 @@ public class PrimitiveTool : ITool
 
             if (input.ToolTriggerValueChanged()) { cube.SetActive(true); }
 
-            Vector3 pos = transform.position + 0.2f * transform.forward;
+            Vector3 pos = transform.position + objectDistance * transform.forward;
             //cube.transform.SetPositionAndRotation(pos, transform.rotation);
             cube.transform.position = pos;
 
             Color c = cube.GetComponent<MeshRenderer>().material.color;
-            c.a = m_minToolVisibility + (triggerValue * (1 - m_minToolVisibility));
+            c.a = minToolVisibility + (triggerValue * (1 - minToolVisibility));
             cube.GetComponent<MeshRenderer>().material.color = c;
 
             if (input.ToolBoolUp()) {
-                /*
-                GameObject cubeClone = Object.Instantiate(cube);
-                Material cloneMat = new Material(cube.GetComponent<MeshRenderer>().material.shader);
-                cloneMat.SetColor("Red", new Color(1, 0, 0));
-                cubeClone.GetComponent<MeshRenderer>().material = cloneMat;
-                */
-
-                meshManager.CreateIcosphere(pos, 0.15f);
+                meshManager.CreateCube(pos, 0.15f);
             }
         }
 

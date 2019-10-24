@@ -15,11 +15,13 @@ public class ToolFunction : IFunction {
     private float triggerThreshold;
     private int player_id;
     private MeshManager mesh_manager;
+    private bool isFirstFrame;
 
     public ToolFunction(Vector3 toolStartPos, int player_id, MeshManager mesh_manager)
     {
         this.player_id = player_id;
         this.mesh_manager = mesh_manager;
+        isFirstFrame = true;
 
         equippedTool = ToolEnum.translate;
 
@@ -44,10 +46,11 @@ public class ToolFunction : IFunction {
 
     public bool Call(IInputParser input) 
     {
-        tools[(int)equippedTool].Apply(input);
+        tools[(int)equippedTool].Apply(input, isFirstFrame);
 
         bool maintainState = input.ToolTriggerValue() > triggerThreshold;
         mesh_manager.SetUpdateSelected(player_id, !maintainState);
+        isFirstFrame = !maintainState;
 
         return maintainState; 
     }

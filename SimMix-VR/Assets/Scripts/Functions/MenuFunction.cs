@@ -80,8 +80,6 @@ public class MenuFunction : IFunction
         mode_wrapper.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         mode_wrapper.transform.localPosition = new Vector3(0, 0, radius + 1f);
 
-
-        Debug.Log("selected init: " + selectedElement);
         menuElements[selectedElement].GetComponent<MeshRenderer>().material = selectedMat;
 
         GameObject pointerPrimitive = GameObject.CreatePrimitive(globals.pointerElementType);
@@ -138,11 +136,9 @@ public class MenuFunction : IFunction
                     menuElements[hooverElement].GetComponent<MeshRenderer>().material = hoverMat;
                 }
 
-                //if (input.MenuClickBool() && hooverElement != selectedElement) 
-                if (hooverElement != selectedElement) 
+                if (input.MenuClickBool() && hooverElement != selectedElement) 
                 {
                     menuElements[hooverElement].GetComponent<MeshRenderer>().material = selectedMat;
-                    Debug.Log("selected: " + selectedElement);
                     menuElements[selectedElement].GetComponent<MeshRenderer>().material = unselectedMat;
 
                     selectedElement = hooverElement;

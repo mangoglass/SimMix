@@ -20,7 +20,7 @@ public class SpectatorCameraControl : MonoBehaviour
     //private readonly float minBeta = 90f;
 
     private readonly int invert = -1;
-    
+    private bool active;
 
     void Start()
     {
@@ -31,12 +31,18 @@ public class SpectatorCameraControl : MonoBehaviour
 
         // Set this position to camera rig position.
         transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
-        
+        active = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("f")) 
+        {
+            active = !active;
+            spectatorCamera.GetComponent<Camera>().depth = (active ? 2 : 0);
+        }
+
         Zoom();
         Rotate();
         Move();

@@ -44,6 +44,7 @@ public class Globals : MonoBehaviour
     public float clickScalingFactor;
     [Range(0f, 1f)]
     public float scalingTriggerThreshold;
+    public float objectDistanceFromController;
 
     [Header("Edit Mode Variables")]
     public Material objectMaterial;

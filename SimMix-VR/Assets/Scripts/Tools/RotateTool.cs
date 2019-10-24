@@ -16,15 +16,16 @@ public class RotateTool : ITool
         this.player_id = player_id;
     }
 
-    public void Apply( IInputParser input) 
+    public void Apply( IInputParser input, bool isFirstFrame) 
     {
         Vector3 position = input.GetTransform().position;
 
-        if (input.ToolLastTriggerValue() == 0) 
+        if (isFirstFrame) 
         {
             center = mesh_manager.GetCenter(player_id);
+        }
 
-        }else
+        else
         {
             Vector3 w1 = last_pos - center;
             Vector3 w2 = position - center;
@@ -35,9 +36,8 @@ public class RotateTool : ITool
             q.Normalize();
             mesh_manager.Rotate(player_id, q);
         }
+
         last_pos = position;
-
-
     }
 
 }

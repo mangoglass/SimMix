@@ -18,13 +18,13 @@ internal class PlayerScaleTool : ITool
         scalingTriggerThreshhold = globals.scalingTriggerThreshold;
     }
 
-    public void Apply(IInputParser input) 
+    public void Apply(IInputParser input, bool isFirstFrame) 
     {
         Vector3 pos = input.GetTransform().localPosition;
         float toolValue = input.ToolTriggerValue();
         bool toolClick = input.ToolBool();
 
-        if(toolValue > scalingTriggerThreshhold && input.ToolLastTriggerValue() != 0) 
+        if(toolValue > scalingTriggerThreshhold && !isFirstFrame) 
         {
             Transform cameraRig = SteamVR_Render.Top().origin;
             scale = cameraRig.localScale.x;
