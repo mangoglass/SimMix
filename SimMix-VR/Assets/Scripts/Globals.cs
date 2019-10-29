@@ -45,6 +45,9 @@ public class Globals : MonoBehaviour
     [Range(0f, 1f)]
     public float scalingTriggerThreshold;
     public float objectDistanceFromController;
+    public Transform vrCameraRef;
+    public float minScale;
+    public float maxScale;
 
     [Header("Edit Mode Variables")]
     public Material objectMaterial;
