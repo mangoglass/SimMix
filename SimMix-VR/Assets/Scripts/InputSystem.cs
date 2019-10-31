@@ -54,7 +54,7 @@ public class InputSystem : MonoBehaviour
             new MenuFunction(nrOfTools, inputParser.GetTransform(), toolFunction)
         };
 
-        StartCoroutine(OutLineCreator(1f, controllerModel, glob.modeColor[0]));
+        StartCoroutine(OutLineCreator(1.5f, controllerModel, glob.modeColor[0]));
 
         // Gets the tool trigger threshold value, fixes Oculus Touch bug.
         triggerThreshold = glob.toolTriggerThreshold;
