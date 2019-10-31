@@ -1,7 +1,8 @@
 ﻿using Valve.VR;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class VRInputParser : MonoBehaviour, IInputParser {
+public class NetworkInputParser : NetworkBehaviour, IInputParser {
 
     public enum Controller { left, right };
 
@@ -16,28 +17,23 @@ public class VRInputParser : MonoBehaviour, IInputParser {
 
     private SteamVR_Behaviour_Pose m_Pose;
 
-    void Awake() 
-    {
+    void Awake() {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
     }
 
-    public Transform GetTransform() 
-    {
+    public Transform GetTransform() {
         return m_Pose.transform;
     }
 
-    public bool isLeftController() 
-    {
+    public bool isLeftController() {
         return controller == Controller.left;
     }
 
-    public bool isRightController() 
-    {
+    public bool isRightController() {
         return controller == Controller.right;
     }
 
-    public bool MenuClickBool() 
-    {
+    public bool MenuClickBool() {
         return menuClick.GetState(m_Pose.inputSource);
     }
 
@@ -45,8 +41,7 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return menuClick.GetStateDown(m_Pose.inputSource);
     }
 
-    public bool MenuDisplayBool() 
-    {
+    public bool MenuDisplayBool() {
         return menuDisplay.GetState(m_Pose.inputSource);
     }
 
@@ -58,8 +53,7 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return menuDisplay.GetStateUp(m_Pose.inputSource);
     }
 
-    public bool SwapBool() 
-    {
+    public bool SwapBool() {
         return swapClick.GetState(m_Pose.inputSource);
     }
 
@@ -71,8 +65,7 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return swapClick.GetStateUp(m_Pose.inputSource);
     }
 
-    public bool TeleportBool() 
-    {
+    public bool TeleportBool() {
         return teleportClick.GetState(m_Pose.inputSource);
     }
 
@@ -84,13 +77,11 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return teleportClick.GetStateUp(m_Pose.inputSource);
     }
 
-    public bool ToolBool() 
-    {
+    public bool ToolBool() {
         return toolClick.GetState(m_Pose.inputSource);
     }
 
-    public bool ToolBoolUp() 
-    {
+    public bool ToolBoolUp() {
         return toolClick.GetStateUp(m_Pose.inputSource);
     }
 
@@ -98,13 +89,11 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return toolClick.GetStateDown(m_Pose.inputSource);
     }
 
-    public bool ToolTriggerValueChanged() 
-    {
+    public bool ToolTriggerValueChanged() {
         return toolVariable.GetChanged(m_Pose.inputSource);
     }
 
-    public float ToolTriggerValue() 
-    {
+    public float ToolTriggerValue() {
         return toolVariable.GetAxis(m_Pose.inputSource);
     }
 
@@ -112,8 +101,7 @@ public class VRInputParser : MonoBehaviour, IInputParser {
         return toolVariable.GetLastAxis(m_Pose.inputSource);
     }
 
-    public Vector2 MenuPointerLocation() 
-    {
+    public Vector2 MenuPointerLocation() {
         return menuLocation.GetAxis(m_Pose.inputSource);
     }
 }

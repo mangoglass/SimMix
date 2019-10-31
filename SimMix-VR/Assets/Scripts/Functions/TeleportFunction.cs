@@ -19,6 +19,8 @@ public class TeleportFunction : IFunction
 
         line = Resources.Load("Prefabs/TeleportLine") as GameObject;
         cursor = Resources.Load("Prefabs/TeleportCursor") as GameObject;
+        line.name = "Teleport Line";
+        cursor.name = "Teleport Cursor";
 
         line = Object.Instantiate(line, controllerTransform);
         cursor = Object.Instantiate(cursor);

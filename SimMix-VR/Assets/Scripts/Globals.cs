@@ -13,6 +13,7 @@ public class Globals : MonoBehaviour
     public float toolTriggerThreshold;
 
     [Header("Menu Variables")]
+    public string menuSystemFile;
     public float menuScale;
     public float menuRadius;
     [Range(0.01f,1f)]
@@ -20,7 +21,7 @@ public class Globals : MonoBehaviour
     public Vector3 menuRelativePosition;
     public Vector3 menuRelativeRotation;
     public PrimitiveType menuElementType;
-    public Vector3 menuElementLocalScale;
+    public float menuElementScale;
     public PrimitiveType pointerElementType;
     public Material MenuPointerMaterial;
     public Material MenuUnselectedMaterial;

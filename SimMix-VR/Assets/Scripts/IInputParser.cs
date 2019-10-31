@@ -19,6 +19,7 @@ public interface IInputParser
     bool MenuDisplayBoolDown();
     bool MenuDisplayBoolUp();
     bool MenuClickBool();
+    bool MenuClickBoolDown();
 
     bool isLeftController();
     bool isRightController();

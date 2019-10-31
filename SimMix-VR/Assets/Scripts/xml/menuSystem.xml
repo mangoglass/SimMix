@@ -1,0 +1,123 @@
+<menu>
+	<name>root</name>
+	<items>4</items>
+	
+	<menu> 
+		<name>Creation Tools</name>
+		<path>Prefabs/Tools/create_icosphere</path>
+		<items>4</items>
+		
+		<tool>
+			<name>Cube</name>
+			<path>Prefabs/Tools/create_cube</path>
+			<id>0</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>true</vmode>
+		</tool>
+		
+		<tool>
+			<name>Icosphere</name>
+			<path>Prefabs/Tools/create_icosphere</path>
+			<id>0</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>true</vmode>
+		</tool>
+		
+		<tool>
+			<name>Copy</name>
+			<path>Prefabs/Tools/copy</path>
+			<id>8</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>true</vmode>
+		</tool>
+		
+		<tool>
+			<name>Delete</name>
+			<path>Prefabs/Tools/delete</path>
+			<id>9</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>true</vmode>
+		</tool>
+		
+	</menu>
+	
+	<menu> 
+		<name>Mesh Tools</name>
+		<path>Prefabs/Tools/scale</path>
+		<items>5</items>
+		
+		<tool>
+			<name>Translate</name>
+			<path>Prefabs/Tools/translate</path>
+			<id>1</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>true</vmode>
+		</tool>
+		
+		<tool>
+			<name>Rotate</name>
+			<path>Prefabs/Tools/rotate</path>
+			<id>2</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>false</vmode>
+		</tool>
+		
+		<tool>
+			<name>Scale</name>
+			<path>Prefabs/Tools/scale</path>
+			<id>3</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>false</vmode>
+		</tool>
+		
+		<tool>
+			<name>Inset</name>
+			<path>Prefabs/Tools/inset</path>
+			<id>6</id>
+			<omode>false</omode>
+			<fmode>true</fmode>
+			<vmode>false</vmode>
+		</tool>
+		
+		<tool>
+			<name>Extrude</name>
+			<path>Prefabs/Tools/extrude</path>
+			<id>4</id>
+			<omode>false</omode>
+			<fmode>true</fmode>
+			<vmode>false</vmode>
+		</tool>	
+	</menu>
+	
+	<menu> 
+		<name>User Tools</name>
+		<path>Prefabs/Tools/user_tools</path>
+		<items>1</items>
+		
+		<tool>
+			<name>User Scale</name>
+			<path>Prefabs/Tools/user_scale</path>
+			<id>7</id>
+			<omode>true</omode>
+			<fmode>true</fmode>
+			<vmode>true</vmode>
+		</tool>	
+		
+	</menu>
+	
+	<tool>
+		<name>Colors</name>
+		<path>Prefabs/Tools/color</path>
+		<id>5</id>
+		<omode>true</omode>
+		<fmode>true</fmode>
+		<vmode>false</vmode>
+	</tool>
+</menu>

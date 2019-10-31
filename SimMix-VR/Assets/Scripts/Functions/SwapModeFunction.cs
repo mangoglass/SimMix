@@ -31,7 +31,7 @@ public class ChangeModeFunction : IFunction {
         this.controller = controller;
         this.controllerObject = controllerObject;
 
-        modeMenuWrapper = Object.Instantiate(new GameObject(), controllerTransform);
+        modeMenuWrapper = Object.Instantiate(new GameObject("Mode Menu Wrapper"), controllerTransform);
         modeMenuWrapper.transform.localPosition = new Vector3(0, 0, 0);
         modeMenuWrapper.SetActive(false);
 
@@ -47,6 +47,7 @@ public class ChangeModeFunction : IFunction {
 
         // Pointer
         modeMenuPointer = Resources.Load("Prefabs/ChangeModePointer") as GameObject;
+        modeMenuPointer.name = "Mode Menu Pointer";
         modeMenuPointer = Object.Instantiate(modeMenuPointer, modeMenuWrapper.transform);
         Transform mmpt = modeMenuPointer.transform;
         mmpt.localPosition = globals.modePointerOffset;
