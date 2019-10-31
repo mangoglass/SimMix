@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2519031697816010667}
   - component: {fileID: 6383269653877805670}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Capsule Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7180738092714735217}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1

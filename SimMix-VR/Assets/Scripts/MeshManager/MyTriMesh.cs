@@ -1,10 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Linq;
 
-public class MyTriMesh : MonoBehaviour
+public class MyTriMesh : NetworkBehaviour
 {
+    // Synchronized values
+    public struct SyncedVertexInfo
+    {
+        public Vector3 vertex;
+        public int index;
+        public Vector3 color;
+
+        public SyncedVertexInfo(Vector3 vertex, int index, Vector3 color)
+        {
+            this.vertex = vertex;
+            this.index = index;
+            this.color = color;
+        }
+    }
+    public class SyncListMesh : SyncListStruct<SyncedVertexInfo> {}
+
+    public SyncListMesh syncedMeshes = new SyncListMesh();
+
+    public float sendRate = 1f;
+    private float sendDelta = 0f; // this is in seconds (not ms)!
+    private float currentTime = 0f;
+
+    // Mesh variables
     Dictionary<int, MyMeshFace> faces;
     Dictionary<int, Vector3> verti;
 
@@ -12,9 +36,14 @@ public class MyTriMesh : MonoBehaviour
     int last_vertex;
 
     Mesh mesh;
+    [SerializeField]
     bool rerender;
 
     Outline outline;
+
+    public int type;
+
+
 
     public void Awake()
     {
@@ -29,21 +58,134 @@ public class MyTriMesh : MonoBehaviour
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
 
 
-        ////////
+        if (type == 1)
+        {
+            CreateCube(0.15f);
+        } else if (type == 2)
+        {
+            CreateIcoSphere(0.15f);
+
+        }
+
+        ////
         outline = gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineAll;
         outline.enabled = false;
         outline.OutlineColor = (Color.red + Color.yellow) / 2.0f;
         outline.OutlineWidth = 6.0f;
+
+        // networking
+        sendDelta = 1 / sendRate;
+    }
+
+    public override void OnStartClient()
+    {
+        // Add the changing function to the delegate.
+        syncedMeshes.Callback = SyncListUpdate;
+
+        //Debug.Log("This is called from OnStartClient");
+        //Debug.Log("hasAuthority: " + hasAuthority);
+    }
+
+    //FIXME: this functions is actually not needed anymore, but keep it for now just in case.
+    public override void OnStartAuthority()
+    {
+        //Render();
+        //Debug.Log("This is called from OnStartAuthority");
+        //Debug.Log("hasAuthority: " + hasAuthority);
     }
 
     public void Update()
     {
-        if (rerender)
+        // Check for authority to be sure that only the original object calls Render()
+        if (rerender && hasAuthority)
         {
             Render();
             rerender = false;
         }
+
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            UpdateMesh();
+            //Debug.Log("hasAuthority: " + hasAuthority);
+        }
+    }
+
+    // MyTriMesh functions
+
+    void CreateCube(float side_length)
+    {
+        float half_side = side_length / 2.0f;
+        Vector3 e0 = new Vector3(half_side, 0, 0);
+        Vector3 e1 = new Vector3(0, half_side, 0);
+        Vector3 e2 = new Vector3(0, 0, half_side);
+
+        int p1 = CreateVertex(e0 + e1 + e2);
+        int p2 = CreateVertex(e0 + e1 - e2);
+        int p3 = CreateVertex(e0 - e1 + e2);
+        int p4 = CreateVertex(e0 - e1 - e2);
+        int p5 = CreateVertex(-e0 + e1 + e2);
+        int p6 = CreateVertex(-e0 + e1 - e2);
+        int p7 = CreateVertex(-e0 - e1 + e2);
+        int p8 = CreateVertex(-e0 - e1 - e2);
+
+        CreateFace(p2, p1, p5);
+        CreateFace(p2, p5, p6);
+        CreateFace(p1, p3, p7);
+        CreateFace(p1, p7, p5);
+        CreateFace(p4, p3, p1);
+        CreateFace(p4, p1, p2);
+        CreateFace(p4, p2, p6);
+        CreateFace(p4, p6, p8);
+        CreateFace(p6, p5, p7);
+        CreateFace(p6, p7, p8);
+        CreateFace(p3, p4, p8);
+        CreateFace(p3, p8, p7);
+    }
+
+    void CreateIcoSphere(float diameter)
+    {
+        float radius = diameter / 2.0f;
+        float t = ((1.0f + Mathf.Sqrt(5)) / 2.0f) * radius;
+
+        int p0 = CreateVertex(new Vector3(-radius, t, 0));
+        int p1 = CreateVertex(new Vector3(radius, t, 0));
+        int p2 = CreateVertex(new Vector3(-radius, -t, 0));
+        int p3 = CreateVertex(new Vector3(radius, -t, 0));
+
+        int p4 = CreateVertex(new Vector3(0, -radius, t));
+        int p5 = CreateVertex(new Vector3(0, radius, t));
+        int p6 = CreateVertex(new Vector3(0, -radius, -t));
+        int p7 = CreateVertex(new Vector3(0, radius, -t));
+
+        int p8 = CreateVertex(new Vector3(t, 0, -radius));
+        int p9 = CreateVertex(new Vector3(t, 0, radius));
+        int p10 = CreateVertex(new Vector3(-t, 0, -radius));
+        int p11 = CreateVertex(new Vector3(-t, 0, radius));
+
+        CreateFace(p11, p0, p5);
+        CreateFace(p5, p0, p1);
+        CreateFace(p1, p0, p7);
+        CreateFace(p7, p0, p10);
+        CreateFace(p10, p0, p11);
+
+        CreateFace(p5, p1, p9);
+        CreateFace(p11, p5, p4);
+        CreateFace(p10, p11, p2);
+        CreateFace(p7, p10, p6);
+        CreateFace(p1, p7, p8);
+
+        CreateFace(p9, p3, p4);
+        CreateFace(p4, p3, p2);
+        CreateFace(p2, p3, p6);
+        CreateFace(p6, p3, p8);
+        CreateFace(p8, p3, p9);
+
+        CreateFace(p9, p4, p5);
+        CreateFace(p4, p2, p11);
+        CreateFace(p2, p6, p10);
+        CreateFace(p6, p8, p7);
+        CreateFace(p8, p9, p1);
     }
 
     public void CloneFrom(MyTriMesh og_tri_mesh)
@@ -60,8 +202,10 @@ public class MyTriMesh : MonoBehaviour
             faces.Add(entry.Key, entry.Value.Clone());
         }
 
+        gameObject.transform.position = og_tri_mesh.gameObject.transform.position;
     }
 
+    [Client]
     public void Render()
     {
         Vector3[] vertices_array = new Vector3[faces.Count * 3];
@@ -73,12 +217,11 @@ public class MyTriMesh : MonoBehaviour
         {
             faces_array[curr_index] = curr_index;
             faces_array[curr_index + 1] = curr_index + 1;
-            faces_array[curr_index + 2] = curr_index + 2;
+            faces_array[curr_index + 2] = curr_index + 2;   
 
             vertices_array[curr_index] = verti[face_entry.Value.vertices[2]];
             vertices_array[curr_index + 1] = verti[face_entry.Value.vertices[1]];
             vertices_array[curr_index + 2] = verti[face_entry.Value.vertices[0]];
-
 
             Color color = face_entry.Value.color;
             if (face_entry.Value.selected)
@@ -91,7 +234,14 @@ public class MyTriMesh : MonoBehaviour
             colors_array[curr_index + 2] = color;
 
             curr_index += 3;
+        }
 
+        // Check the interval, then call the sync function. 
+        currentTime -= Time.deltaTime;
+        if (currentTime <= 0)
+        {
+            currentTime = sendDelta;
+            CmdSyncValues(vertices_array, faces_array, colors_array);
         }
 
         mesh.vertices = vertices_array;
@@ -100,6 +250,99 @@ public class MyTriMesh : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
+    // This is like Render() but is called from the server to the client and shouldn't not run on the original gameObject.
+    private void UpdateMesh()
+    {
+        //Debug.Log("Calling from UpdateMesh");
+        //Debug.Log("hasAuthority: " + hasAuthority);
+
+        Vector3[] vertices_array = new Vector3[syncedMeshes.Count];
+        int[] faces_array = new int[syncedMeshes.Count];
+        Color[] colors_array = new Color[syncedMeshes.Count];
+
+        // Get the values from the synchronized list.
+        for (int i = 0; i < vertices_array.Length; i++)
+        {
+            vertices_array[i] = syncedMeshes[i].vertex;
+            faces_array[i] = syncedMeshes[i].index;
+            Vector3 color = syncedMeshes[i].color;
+            colors_array[i] = new Color(color.x, color.y, color.z);
+        }
+
+        mesh.vertices = vertices_array;
+        mesh.triangles = faces_array;
+        mesh.colors = colors_array;
+        mesh.RecalculateNormals();
+    }
+
+    // Network functions
+    // Synchronize the values here, but don't call this every frame!
+    [Command]
+    public void CmdSyncValues(Vector3[] vertices_array, int[] faces_array, Color[] colors_array)
+    {
+        syncedMeshes.Clear();
+
+        for(int i = 0; i < vertices_array.Length;  i++)
+        {
+            SyncedVertexInfo syncedVertexInfo;
+            syncedVertexInfo.vertex = vertices_array[i];
+            syncedVertexInfo.index = faces_array[i];
+            syncedVertexInfo.color = (Vector4)colors_array[i];
+            syncedMeshes.Add(syncedVertexInfo);
+        }
+
+        RpcUpdateMeshFromServer(vertices_array.Length);
+    }
+
+    // This is called from the server whenever the mesh needs an update.
+    [ClientRpc]
+    public void RpcUpdateMeshFromServer(int vertices_length)
+    {   //OBS! This only runs on non original objects!
+        if(!hasAuthority)
+        {
+            while (syncedMeshes.Count < vertices_length) { }
+            UpdateMesh();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(hasAuthority)
+        {
+
+        }
+    }
+
+    [Command]
+    public void CmdDelete(GameObject meshObject)
+    {
+        NetworkServer.Destroy(meshObject);
+    }
+
+    /**
+     * This function is added to a delegate called SyncListChanged which is on
+     * the property Callback. In short, the signature of UpdateMesh has to be the 
+     * same as the delegate SyncListChanged
+     * To learn more visit these links:
+     * https://docs.unity3d.com/2018.2/Documentation/ScriptReference/Networking.SyncList_1.SyncListChanged.html
+     * https://www.tutorialspoint.com/csharp/csharp_delegates.htm
+     * SyncListMesh.Operation is an enumeration:
+     * https://docs.unity3d.com/2018.2/Documentation/ScriptReference/Networking.SyncList_1.Operation.html
+     */
+    public void SyncListUpdate(SyncListMesh.Operation op, int index)
+    {
+        //Debug.Log("The list changed: " + op + " with index: " + index);
+        /*if(index >= syncedMeshes.Count - 1)
+        {
+            Debug.Log("Lets create magic");
+            UpdateMesh();
+        }*/
+    }
+
+
+
+
+    // ---------------------------- MESH FUNCTIONS ---------------------------- //
 
     public int CreateVertex(Vector3 pos)
     {
@@ -139,6 +382,8 @@ public class MyTriMesh : MonoBehaviour
 
     public (int, float) GetClosestVertex(Vector3 position)
     {
+        position -= gameObject.transform.position;
+
         float min_dist = float.MaxValue;
         int min_vert_id = 0;
 
@@ -157,6 +402,8 @@ public class MyTriMesh : MonoBehaviour
 
     public (int, float) GetClosestFace(Vector3 position)
     {
+        position -= gameObject.transform.position;
+
         float min_dist = float.MaxValue;
         int min_face_id = 0;
 
@@ -187,7 +434,7 @@ public class MyTriMesh : MonoBehaviour
             sum += verti[vert_id];
         }
 
-        return sum / vert_ids.Count();
+        return sum / vert_ids.Count() + gameObject.transform.position;
     }
 
     public Vector3 GetCenterFace(int face_id)
@@ -197,9 +444,9 @@ public class MyTriMesh : MonoBehaviour
 
     public Vector3[] GetDisplacedFaceVerti(int face_id, float displacement)
     {
-        Vector3 v0 = verti[faces[face_id].vertices[0]];
-        Vector3 v1 = verti[faces[face_id].vertices[1]];
-        Vector3 v2 = verti[faces[face_id].vertices[2]];
+        Vector3 v0 = verti[faces[face_id].vertices[0]] + gameObject.transform.position;
+        Vector3 v1 = verti[faces[face_id].vertices[1]] + gameObject.transform.position;
+        Vector3 v2 = verti[faces[face_id].vertices[2]] + gameObject.transform.position;
         Vector3 n = Vector3.Normalize(Vector3.Cross(v2 - v0, v1 - v0));
         return new Vector3[3] { v0 + displacement * n, v1 + displacement * n, v2 + displacement * n };
 
@@ -216,7 +463,8 @@ public class MyTriMesh : MonoBehaviour
     public void Translate(Vector3 diff)
     {
         rerender = true;
-        Translate(verti.Keys.ToArray(), diff);
+        //Translate(verti.Keys.ToArray(), diff);
+        gameObject.transform.position += diff;
     }
 
     public void Translate(int[] vert_ids, Vector3 diff)
@@ -244,7 +492,7 @@ public class MyTriMesh : MonoBehaviour
     public void Scale(int[] vert_ids, float factor)
     {
         rerender = true;
-        Vector3 center = GetCenter(vert_ids);
+        Vector3 center = GetCenter(vert_ids) - gameObject.transform.position;
         foreach (int vert_id in vert_ids)
         {
             verti[vert_id] = factor * (verti[vert_id] - center) + center;
@@ -267,8 +515,7 @@ public class MyTriMesh : MonoBehaviour
     {
         rerender = true;
 
-        Vector3 center = GetCenter(vert_ids);
-        //Quaternion rotation = Quaternion.Euler(euler_angles.x, euler_angles.y, euler_angles.z);
+        Vector3 center = GetCenter(vert_ids) - gameObject.transform.position;
         Matrix4x4 m = Matrix4x4.Rotate(rotation);
 
         foreach (int vert_id in vert_ids)
@@ -380,7 +627,7 @@ public class MyTriMesh : MonoBehaviour
 
     public Vector3 GetVert(int vert_id)
     {
-        return verti[vert_id];
+        return verti[vert_id] + gameObject.transform.position;
     }
 }
 
